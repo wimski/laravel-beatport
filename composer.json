@@ -1,0 +1,40 @@
+{
+    "name": "wimski/laravel-beatport",
+    "description": "",
+    "keywords": ["laravel", "beatport"],
+    "homepage": "https://github.com/wimski/laravel-beatport",
+    "authors": [
+        {
+            "name": "Wimski",
+            "email": "thatonedudewimski@gmail.com"
+        }
+    ],
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.2.5",
+        "ext-curl": "*",
+        "khill/php-duration": "^1.0",
+        "myclabs/php-enum": "^1.7",
+        "symfony/dom-crawler": "^5.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.3",
+        "mockery/mockery": "^1.3",
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wimski\\Beatport\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wimski\\Beatport\\Providers\\BeatportServiceProvider"
+            ]
+        }
+    }
+}
