@@ -12,7 +12,7 @@ class PaginationProcessor
 
         $pagination = $crawler->get('.pagination-container');
 
-        if (! $pagination) {
+        if (! $pagination->count()) {
             return null;
         }
 
