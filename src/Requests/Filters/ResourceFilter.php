@@ -56,6 +56,11 @@ class ResourceFilter extends AbstractFilter
         return $this;
     }
 
+    public function supportsMultipleValues(): bool
+    {
+        return $this->supportsMultipleValues;
+    }
+
     public function input($input): RequestFilterInterface
     {
         if ($this->supportsMultipleValues) {
@@ -80,7 +85,7 @@ class ResourceFilter extends AbstractFilter
 
         foreach ($input as $value) {
             if (! is_int($value)) {
-                throw new InvalidFilterInputException('The DateFilter input array must only contain int values');
+                throw new InvalidFilterInputException('The ResourceFilter input array must only contain int values');
             }
         }
 
@@ -90,7 +95,7 @@ class ResourceFilter extends AbstractFilter
     protected function processSingleValue($input): array
     {
         if (! is_int($input)) {
-            throw new InvalidFilterInputException('The DateFilter input must be an int when not given an array');
+            throw new InvalidFilterInputException('The ResourceFilter input must be an int when not given an array');
         }
 
         return [$input];
