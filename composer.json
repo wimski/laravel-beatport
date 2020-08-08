@@ -30,6 +30,14 @@
             "Wimski\\Beatport\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Wimski\\Beatport\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
     "extra": {
         "laravel": {
             "providers": [
