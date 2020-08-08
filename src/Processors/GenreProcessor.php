@@ -9,7 +9,7 @@ class GenreProcessor extends AbstractProcessor
 {
     protected function processMultiple(): ?Collection
     {
-        $genres = $this->crawler->filter('.genre-drop-list__genre')->each(function (Crawler $item) {
+        $genres = $this->html->filter('.genre-drop-list__genre')->each(function (Crawler $item) {
             $props = $this->urlProcessor->process($item->attr('href'));
             $props['title'] = $item->text();
 

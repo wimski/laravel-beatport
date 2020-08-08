@@ -24,7 +24,7 @@ class ReleaseProcessor extends AbstractProcessor
             return null;
         }
 
-        $url = $this->crawler->filter('head meta')->getAttr('[name="og:url"]', 'content');
+        $url = $this->html->filter('head meta')->getAttr('[name="og:url"]', 'content');
 
         $release = new Release($this->urlProcessor->process($url));
 

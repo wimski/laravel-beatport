@@ -17,7 +17,7 @@ abstract class AbstractProcessor implements ProcessorInterface
     /**
      * @var Crawler
      */
-    protected $crawler;
+    protected $html;
 
     public function __construct(UrlProcessor $urlProcessor)
     {
@@ -26,7 +26,7 @@ abstract class AbstractProcessor implements ProcessorInterface
 
     public function process(RequestTypeEnum $requestType, string $html)
     {
-        $this->crawler = new Crawler($html);
+        $this->html = new Crawler($html);
 
         if ($requestType->equals(RequestTypeEnum::VIEW)) {
             return $this->processSingle();
@@ -37,7 +37,7 @@ abstract class AbstractProcessor implements ProcessorInterface
 
     protected function getContentRoot(): Crawler
     {
-        return $this->crawler->get('#pjax-target');
+        return $this->html->get('#pjax-target');
     }
 
     protected function processSingle(): ?DataInterface
