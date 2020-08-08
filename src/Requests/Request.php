@@ -4,8 +4,8 @@ namespace Wimski\Beatport\Requests;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
-use Wimski\Beatport\Contracts\ProcessorFactoryInterface;
-use Wimski\Beatport\Contracts\ProcessorInterface;
+use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
+use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Contracts\RequestInterface;
 use Wimski\Beatport\Processors\PaginationProcessor;
@@ -15,9 +15,9 @@ class Request implements RequestInterface
     public const URL = 'https://www.beatport.com';
 
     /**
-     * @var ProcessorFactoryInterface
+     * @var ResourceProcessorFactoryInterface
      */
-    protected $processorFactory;
+    protected $resourceProcessorFactory;
 
     /**
      * @var RequestBuilderInterface
@@ -25,9 +25,9 @@ class Request implements RequestInterface
     protected $builder;
 
     /**
-     * @var ProcessorInterface
+     * @var ResourceProcessorInterface
      */
-    protected $processor;
+    protected $resourceProcessor;
 
     /**
      * @var Collection<DataInterface>|DataInterface|null
@@ -39,11 +39,14 @@ class Request implements RequestInterface
      */
     protected $pagination;
 
-    public function __construct(ProcessorFactoryInterface $processorFactory, RequestBuilderInterface $builder) {
-        $this->processorFactory = $processorFactory;
-        $this->builder          = $builder;
+    public function __construct(
+        ResourceProcessorFactoryInterface $resourceProcessorFactory,
+        RequestBuilderInterface $builder
+    ) {
+        $this->resourceProcessorFactory = $resourceProcessorFactory;
+        $this->builder                  = $builder;
 
-        $this->processor = $this->processorFactory->make($builder->resource());
+        $this->resourceProcessor = $this->resourceProcessorFactory->make($builder->resource());
 
         $response = $this->request();
 
@@ -106,7 +109,7 @@ class Request implements RequestInterface
 
         curl_close($ch);
 
-        $this->data = $this->processor->process($this->builder->type(), $response);
+        $this->data = $this->resourceProcessor->process($this->builder->type(), $response);
 
         return $response;
     }

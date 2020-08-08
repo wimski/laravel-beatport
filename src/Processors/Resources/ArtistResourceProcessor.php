@@ -1,12 +1,13 @@
 <?php
 
-namespace Wimski\Beatport\Processors;
+namespace Wimski\Beatport\Processors\Resources;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Data\Artist;
+use Wimski\Beatport\Processors\Crawler;
 
-class ArtistProcessor extends AbstractProcessor
+class ArtistResourceProcessor extends AbstractResourceProcessor
 {
     protected function processSingle(): ?DataInterface
     {

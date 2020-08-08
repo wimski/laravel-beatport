@@ -1,6 +1,6 @@
 <?php
 
-namespace Wimski\Beatport\Processors;
+namespace Wimski\Beatport\Processors\Resources;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
@@ -9,8 +9,9 @@ use Wimski\Beatport\Data\Genre;
 use Wimski\Beatport\Data\Label;
 use Wimski\Beatport\Data\Release;
 use Wimski\Beatport\Data\Track;
+use Wimski\Beatport\Processors\Crawler;
 
-class ReleaseProcessor extends AbstractProcessor
+class ReleaseResourceProcessor extends AbstractResourceProcessor
 {
     protected function processSingle(): ?DataInterface
     {

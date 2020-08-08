@@ -1,12 +1,13 @@
 <?php
 
-namespace Wimski\Beatport\Processors;
+namespace Wimski\Beatport\Processors\Resources;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Data\Label;
+use Wimski\Beatport\Processors\Crawler;
 
-class LabelProcessor extends AbstractProcessor
+class LabelResourceProcessor extends AbstractResourceProcessor
 {
     protected function processSingle(): ?DataInterface
     {

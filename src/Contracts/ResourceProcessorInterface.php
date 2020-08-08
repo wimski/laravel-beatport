@@ -5,7 +5,7 @@ namespace Wimski\Beatport\Contracts;
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 
-interface ProcessorInterface
+interface ResourceProcessorInterface
 {
     /**
      * @param RequestTypeEnum $requestType

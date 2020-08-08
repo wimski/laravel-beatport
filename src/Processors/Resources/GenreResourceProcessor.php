@@ -1,11 +1,12 @@
 <?php
 
-namespace Wimski\Beatport\Processors;
+namespace Wimski\Beatport\Processors\Resources;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Data\Genre;
+use Wimski\Beatport\Processors\Crawler;
 
-class GenreProcessor extends AbstractProcessor
+class GenreResourceProcessor extends AbstractResourceProcessor
 {
     protected function processMultiple(): ?Collection
     {

@@ -1,13 +1,15 @@
 <?php
 
-namespace Wimski\Beatport\Processors;
+namespace Wimski\Beatport\Processors\Resources;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
-use Wimski\Beatport\Contracts\ProcessorInterface;
+use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
+use Wimski\Beatport\Processors\Crawler;
+use Wimski\Beatport\Processors\UrlProcessor;
 
-abstract class AbstractProcessor implements ProcessorInterface
+abstract class AbstractResourceProcessor implements ResourceProcessorInterface
 {
     /**
      * @var UrlProcessor
