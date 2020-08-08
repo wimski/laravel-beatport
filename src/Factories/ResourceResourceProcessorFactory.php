@@ -7,6 +7,7 @@ use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Contracts\ResourceInterface;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
+use Wimski\Beatport\Exceptions\InvalidResourceException;
 use Wimski\Beatport\Processors\Resources\ArtistResourceProcessor;
 use Wimski\Beatport\Processors\Resources\GenreResourceProcessor;
 use Wimski\Beatport\Processors\Resources\LabelResourceProcessor;
@@ -44,7 +45,7 @@ class ResourceResourceProcessorFactory implements ResourceProcessorFactoryInterf
                 return $this->app->make(TrackResourceProcessor::class);
 
             default:
-                // throw new Exception
+                throw new InvalidResourceException("Cannot make a processor for {$resource->type()->getValue()} resource");
         }
     }
 }
