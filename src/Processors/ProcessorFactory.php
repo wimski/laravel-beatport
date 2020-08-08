@@ -23,6 +23,18 @@ class ProcessorFactory implements ProcessorFactoryInterface
     public function make(ResourceInterface $resource): ProcessorInterface
     {
         switch ($resource->type()) {
+            case ResourceTypeEnum::ARTIST:
+                return $this->app->make(ArtistProcessor::class);
+
+            case ResourceTypeEnum::GENRE:
+                return $this->app->make(GenreProcessor::class);
+
+            case ResourceTypeEnum::LABEL:
+                return $this->app->make(LabelProcessor::class);
+
+            case ResourceTypeEnum::RELEASE:
+                return $this->app->make(ReleaseProcessor::class);
+
             case ResourceTypeEnum::TRACK:
                 return $this->app->make(TrackProcessor::class);
 

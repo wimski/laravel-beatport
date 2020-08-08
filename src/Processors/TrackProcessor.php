@@ -13,9 +13,9 @@ use Wimski\Beatport\Data\Track;
 
 class TrackProcessor extends AbstractProcessor
 {
-    protected function processSingle(Crawler $meta, Crawler $root): ?DataInterface
+    protected function processSingle(): ?DataInterface
     {
-        $interior = $root->get('.interior');
+        $interior = $this->getContentRoot()->get('.interior');
         if (! $interior) {
             return null;
         }
@@ -25,7 +25,7 @@ class TrackProcessor extends AbstractProcessor
             return null;
         }
 
-        $url = $meta->getAttr('[name="og:url"]', 'content');
+        $url = $this->crawler->filter('head meta')->getAttr('[name="og:url"]', 'content');
 
         $track = new Track($this->parseUrl($url));
 
@@ -85,9 +85,9 @@ class TrackProcessor extends AbstractProcessor
         return $track;
     }
 
-    protected function processMultiple(Crawler $meta, Crawler $root): ?Collection
+    protected function processMultiple(): ?Collection
     {
-        $items = $root->filter('.bucket-items .bucket-item');
+        $items = $this->getContentRoot()->filter('.bucket-items .bucket-item');
 
         if (! $items) {
             return null;
@@ -118,6 +118,11 @@ class TrackProcessor extends AbstractProcessor
             $labelProps  = $this->parseUrl($labelAnchor->attr('href'));
             $labelProps['title'] = $labelAnchor->text();
             $track->setLabel(new Label($labelProps));
+
+            $genreAnchor = $item->get('.buk-track-genre a');
+            $genreProps  = $this->parseUrl($genreAnchor->attr('href'));
+            $genreProps['title'] = $genreAnchor->text();
+            $track->setGenre(new Genre($genreProps));
 
             $artists = $item->filter('.buk-track-artists a')->each(function (Crawler $anchor) {
                 $props = $this->parseUrl($anchor->attr('href'));

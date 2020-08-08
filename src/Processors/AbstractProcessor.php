@@ -10,31 +10,36 @@ use Wimski\Beatport\Requests\Request;
 
 abstract class AbstractProcessor implements ProcessorInterface
 {
+    /**
+     * @var Crawler
+     */
+    protected $crawler;
+
     public function process(string $html, bool $multipleResources)
     {
-        $crawler = new Crawler($html);
-
-        $meta = $crawler->filter('head meta');
-        $root = $crawler->get('#pjax-target');
+        $this->crawler = new Crawler($html);
 
         if ($multipleResources) {
-            return $this->processMultiple($meta, $root);
+            return $this->processMultiple();
         }
 
-        return $this->processSingle($meta, $root);
+        return $this->processSingle();
     }
 
-    protected function processSingle(Crawler $meta, Crawler $root): ?DataInterface
+    protected function getContentRoot(): Crawler
+    {
+        return $this->crawler->get('#pjax-target');
+    }
+
+    protected function processSingle(): ?DataInterface
     {
         return null;
     }
 
     /**
-     * @param Crawler $meta
-     * @param Crawler $root
      * @return Collection<DataInterface>|null
      */
-    protected function processMultiple(Crawler $meta, Crawler $root): ?Collection
+    protected function processMultiple(): ?Collection
     {
         return null;
     }
