@@ -1,7 +1,7 @@
 {
     "name": "wimski/laravel-beatport",
-    "description": "",
-    "keywords": ["laravel", "beatport"],
+    "description": "Beatport API for Laravel based on website requests",
+    "keywords": ["laravel", "beatport", "api"],
     "homepage": "https://github.com/wimski/laravel-beatport",
     "authors": [
         {
