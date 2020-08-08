@@ -21,7 +21,7 @@ abstract class AbstractResource implements ResourceInterface
                 $filters = $this->relationshipFilters();
                 break;
 
-            case RequestTypeEnum::SEARCH:
+            case RequestTypeEnum::QUERY:
                 $filters = $this->searchFilters();
                 break;
 
@@ -45,7 +45,7 @@ abstract class AbstractResource implements ResourceInterface
                 $sorts = $this->relationshipSorts();
                 break;
 
-            case RequestTypeEnum::SEARCH:
+            case RequestTypeEnum::QUERY:
                 $sorts = $this->searchSorts();
                 break;
 

@@ -53,7 +53,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         return in_array($this->type()->getValue(), [
             RequestTypeEnum::INDEX,
             RequestTypeEnum::RELATIONSHIP,
-            RequestTypeEnum::SEARCH,
+            RequestTypeEnum::QUERY,
         ]);
     }
 

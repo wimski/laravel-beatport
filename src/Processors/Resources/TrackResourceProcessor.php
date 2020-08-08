@@ -14,66 +14,49 @@ use Wimski\Beatport\Processors\Crawler;
 
 class TrackResourceProcessor extends AbstractResourceProcessor
 {
-    protected function processSingle(): ?DataInterface
+    protected function processView(Crawler $html): ?DataInterface
     {
-        $interior = $this->getContentRoot()->get('.interior');
-        if (! $interior) {
-            return null;
-        }
-
-        $type = $interior->getText('.interior-type');
-        if ($type !== 'Track') {
-            return null;
-        }
-
-        $url = $this->html->filter('head meta')->getAttr('[name="og:url"]', 'content');
+        $url = $html->filter('head meta')->getAttr('[name="og:url"]', 'content');
 
         $track = new Track($this->urlProcessor->process($url));
 
         $track
-            ->setTitle($interior->getText('.interior-title h1'))
-            ->setLength($interior->getText('.interior-track-length .value'))
-            ->setReleased($interior->getText('.interior-track-released .value'))
-            ->setBpm($interior->getText('.interior-track-bpm .value'))
-            ->setKey($interior->getText('.interior-track-key .value'));
+            ->setTitle($html->getText('.interior-title h1'))
+            ->setLength($html->getText('.interior-track-length .value'))
+            ->setReleased($html->getText('.interior-track-released .value'))
+            ->setBpm($html->getText('.interior-track-bpm .value'))
+            ->setKey($html->getText('.interior-track-key .value'))
+            ->setLabel(new Label(
+                $this->processAnchor($html->get('.interior-track-labels .value a')),
+            ))
+            ->setGenre(new Genre(
+                $this->processAnchor($html->get('.interior-track-genre .value a')),
+            ));
 
-        $remixed = $interior->get('.interior-title .remixed');
+        $remixed = $html->get('.interior-title .remixed');
         if (! $remixed) {
             $track->setRemix($remixed->text());
         }
 
-        $genreAnchor         = $interior->get('.interior-track-genre .value a');
-        $genreProps          = $this->urlProcessor->process($genreAnchor->attr('href'));
-        $genreProps['title'] = $genreAnchor->text();
-        $track->setGenre(new Genre($genreProps));
-
-        $subGenreAnchor = $interior->get('.interior-track-genre .value.sep a');
-        if ($subGenreAnchor) {
-            $subGenreProps          = $this->urlProcessor->process($subGenreAnchor->attr('href'));
-            $subGenreProps['title'] = $subGenreAnchor->text();
-            $track->setSubGenre(new SubGenre($subGenreProps));
+        $subGenreAnchor = $html->get('.interior-track-genre .value.sep a');
+        if ($subGenreAnchor->count()) {
+            $track->setSubGenre(new SubGenre(
+                $this->processAnchor($subGenreAnchor),
+            ));
         }
 
-        $labelAnchor         = $interior->get('.interior-track-labels .value a');
-        $labelProps          = $this->urlProcessor->process($labelAnchor->attr('href'));
-        $labelProps['title'] = $labelAnchor->text();
-        $track->setLabel(new Label($labelProps));
-
-        $release                 = $interior->get('.interior-track-releases-artwork-container');
+        $release                 = $html->get('.interior-track-releases-artwork-container');
         $releaseAnchor           = $release->get('a');
         $releaseProps            = $this->urlProcessor->process($releaseAnchor->attr('href'));
         $releaseProps['artwork'] = $releaseAnchor->getAttr('img', 'src');
         $releaseProps['title']   = $release->attr('data-ec-name');
         $track->setRelease(new Release($releaseProps));
 
-        $interior->filter('.interior-track-artists')->each(function (Crawler $artists) use ($track) {
+        $html->filter('.interior-track-artists')->each(function (Crawler $artists) use ($track) {
             $category = $artists->getText('.category');
 
-            $artists->filter('a')->each(function (Crawler $artistAnchor) use ($track, $category) {
-                $props = $this->urlProcessor->process($artistAnchor->attr('href'));
-                $props['title'] = $artistAnchor->text();
-
-                $artist = new Artist($props);
+            $artists->filter('a')->each(function (Crawler $anchor) use ($track, $category) {
+                $artist = new Artist($this->processAnchor($anchor));
 
                 if ($category === 'Artists') {
                     $track->addArtist($artist);
@@ -86,70 +69,84 @@ class TrackResourceProcessor extends AbstractResourceProcessor
         return $track;
     }
 
-    protected function processMultiple(): ?Collection
+    protected function processIndex(Crawler $html): ?Collection
     {
-        $items = $this->getContentRoot()->filter('.bucket-items .bucket-item');
+        return $this->processMultiple($html);
+    }
+
+    protected function processRelationship(Crawler $html): ?Collection
+    {
+        return $this->processMultiple($html);
+    }
+
+    protected function processSearch(Crawler $html): ?Collection
+    {
+        return $this->processMultiple($html);
+    }
+
+    protected function processMultiple(Crawler $html): ?Collection
+    {
+        $items = $html->filter('.bucket-items .bucket-item');
 
         if (! $items) {
             return null;
         }
 
         $tracks = $items->each(function (Crawler $item) {
-            $anchor = $item->get('.buk-track-title a');
-            $props  = $this->urlProcessor->process($anchor->attr('href'));
-            $props['title'] = $anchor->getText('.buk-track-primary-title');
-
-            $track = new Track($props);
+            $track = $this->processRow($item);
 
             $track
-                ->setKey($item->getText('.buk-track-key'))
-                ->setReleased($item->getText('.buk-track-released'));
-
-            $remix = $anchor->get('.buk-track-remixed');
-            if ($remix) {
-                $track->setRemix($remix->text());
-            }
-
-            $releaseAnchor = $item->get('.buk-track-artwork-parent');
-            $releaseProps  = $this->urlProcessor->process($releaseAnchor->getAttr('a', 'href'));
-            $track->setRelease(new Release($releaseProps));
-            $track->getRelease()->setArtwork($releaseAnchor->getAttr('img', 'src'));
-
-            $labelAnchor = $item->get('.buk-track-labels a');
-            $labelProps  = $this->urlProcessor->process($labelAnchor->attr('href'));
-            $labelProps['title'] = $labelAnchor->text();
-            $track->setLabel(new Label($labelProps));
-
-            $genreAnchor = $item->get('.buk-track-genre a');
-            $genreProps  = $this->urlProcessor->process($genreAnchor->attr('href'));
-            $genreProps['title'] = $genreAnchor->text();
-            $track->setGenre(new Genre($genreProps));
-
-            $artists = $item->filter('.buk-track-artists a')->each(function (Crawler $anchor) {
-                $props = $this->urlProcessor->process($anchor->attr('href'));
-                $props['title'] = $anchor->text();
-
-                return new Artist($props);
-            });
-
-            if (! empty($artists)) {
-                $track->setArtists(collect($artists));
-            }
-
-            $remixers = $item->filter('.buk-track-remixers a')->each(function (Crawler $anchor) {
-                $props = $this->urlProcessor->process($anchor->attr('href'));
-                $props['title'] = $anchor->text();
-
-                return new Artist($props);
-            });
-
-            if (! empty($remixers)) {
-                $track->setRemixers(collect($remixers));
-            }
+                ->setReleased($item->getText('.buk-track-released'))
+                ->setLabel(new Label(
+                    $this->processAnchor($item->get('.buk-track-labels a')),
+                ));
 
             return $track;
         });
 
         return collect($tracks);
+    }
+
+    public function processRow(Crawler $row): Track
+    {
+        $anchor = $row->get('.buk-track-title a');
+        $props  = $this->urlProcessor->process($anchor->attr('href'));
+        $props['title'] = $anchor->getText('.buk-track-primary-title');
+
+        $track = new Track($props);
+
+        $track
+            ->setKey($row->getText('.buk-track-key'))
+            ->setGenre(new Genre(
+                $this->processAnchor($row->get('.buk-track-genre a')),
+            ));
+
+        $remix = $anchor->get('.buk-track-remixed');
+        if ($remix) {
+            $track->setRemix($remix->text());
+        }
+
+        $releaseAnchor = $row->get('.buk-track-artwork-parent');
+        $releaseProps  = $this->urlProcessor->process($releaseAnchor->getAttr('a', 'href'));
+        $track->setRelease(new Release($releaseProps));
+        $track->getRelease()->setArtwork($releaseAnchor->getAttr('img', 'src'));
+
+        $artists = $row->filter('.buk-track-artists a')->each(function (Crawler $anchor) {
+            return new Artist($this->processAnchor($anchor));
+        });
+
+        if (! empty($artists)) {
+            $track->setArtists(collect($artists));
+        }
+
+        $remixers = $row->filter('.buk-track-remixers a')->each(function (Crawler $anchor) {
+            return new Artist($this->processAnchor($anchor));
+        });
+
+        if (! empty($remixers)) {
+            $track->setRemixers(collect($remixers));
+        }
+
+        return $track;
     }
 }

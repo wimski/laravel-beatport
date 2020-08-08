@@ -9,26 +9,21 @@ use Wimski\Beatport\Processors\Crawler;
 
 class LabelResourceProcessor extends AbstractResourceProcessor
 {
-    protected function processSingle(): ?DataInterface
+    protected function processView(Crawler $html): ?DataInterface
     {
-        $interior = $this->getContentRoot()->get('.interior');
-        if (! $interior) {
-            return null;
-        }
-
-        $anchor = $interior->get('.interior-title a');
+        $anchor = $html->get('.interior-title a');
         $props  = $this->urlProcessor->process($anchor->attr('href'));
         $props['title'] = $anchor->getText('h1');
 
         $label = new Label($props);
-        $label->setArtwork($interior->getAttr('.interior-top-artwork-parent a img', 'src'));
+        $label->setArtwork($html->getAttr('.interior-top-artwork-parent a img', 'src'));
 
         return $label;
     }
 
-    protected function processMultiple(): ?Collection
+    protected function processSearch(Crawler $html): ?Collection
     {
-        $items = $this->getContentRoot()->filter('.bucket-items .bucket-item');
+        $items = $html->filter('.bucket-items .bucket-item');
 
         if (! $items) {
             return null;

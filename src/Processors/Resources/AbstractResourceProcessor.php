@@ -16,11 +16,6 @@ abstract class AbstractResourceProcessor implements ResourceProcessorInterface
      */
     protected $urlProcessor;
 
-    /**
-     * @var Crawler
-     */
-    protected $html;
-
     public function __construct(UrlProcessor $urlProcessor)
     {
         $this->urlProcessor = $urlProcessor;
@@ -28,29 +23,60 @@ abstract class AbstractResourceProcessor implements ResourceProcessorInterface
 
     public function process(RequestTypeEnum $requestType, string $html)
     {
-        $this->html = new Crawler($html);
+        switch ($requestType->getValue()) {
+            case RequestTypeEnum::INDEX:
+                return $this->processIndex(new Crawler($html));
 
-        if ($requestType->equals(RequestTypeEnum::VIEW)) {
-            return $this->processSingle();
+            case RequestTypeEnum::RELATIONSHIP:
+                return $this->processRelationship(new Crawler($html));
+
+            case RequestTypeEnum::QUERY:
+                return $this->processSearch(new Crawler($html));
+
+            case RequestTypeEnum::VIEW:
+                return $this->processView(new Crawler($html));
+
+            default:
+                // omitted on purpose
         }
-
-        return $this->processMultiple();
     }
 
-    protected function getContentRoot(): Crawler
+    protected function processAnchor(Crawler $anchor): array
     {
-        return $this->html->get('#pjax-target');
+        $props = $this->urlProcessor->process($anchor->attr('href'));
+        $props['title'] = $anchor->text();
+
+        return $props;
     }
 
-    protected function processSingle(): ?DataInterface
+    /**
+     * @param Crawler $html
+     * @return Collection<DataInterface>|null
+     */
+    protected function processIndex(Crawler $html): ?Collection
     {
         return null;
     }
 
     /**
+     * @param Crawler $html
      * @return Collection<DataInterface>|null
      */
-    protected function processMultiple(): ?Collection
+    protected function processRelationship(Crawler $html): ?Collection
+    {
+        return null;
+    }
+
+    /**
+     * @param Crawler $html
+     * @return Collection<DataInterface>|null
+     */
+    protected function processSearch(Crawler $html): ?Collection
+    {
+        return null;
+    }
+
+    protected function processView(Crawler $html): ?DataInterface
     {
         return null;
     }

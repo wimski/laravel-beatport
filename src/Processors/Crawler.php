@@ -19,7 +19,7 @@ class Crawler extends SymfonyCrawler
     {
         $node = $this->get($selector);
 
-        if (! $node) {
+        if (! $node->count()) {
             return null;
         }
 
@@ -30,7 +30,7 @@ class Crawler extends SymfonyCrawler
     {
         $node = $this->get($selector);
 
-        if (! $node) {
+        if (! $node->count()) {
             return null;
         }
 

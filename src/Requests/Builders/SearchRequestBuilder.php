@@ -13,7 +13,7 @@ class SearchRequestBuilder extends AbstractRequestBuilder
 
     public function type(): RequestTypeEnum
     {
-        return RequestTypeEnum::SEARCH();
+        return RequestTypeEnum::QUERY();
     }
 
     public function query(string $query): self

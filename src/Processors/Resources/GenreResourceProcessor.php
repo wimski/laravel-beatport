@@ -8,13 +8,10 @@ use Wimski\Beatport\Processors\Crawler;
 
 class GenreResourceProcessor extends AbstractResourceProcessor
 {
-    protected function processMultiple(): ?Collection
+    protected function processIndex(Crawler $html): ?Collection
     {
-        $genres = $this->html->filter('.genre-drop-list__genre')->each(function (Crawler $item) {
-            $props = $this->urlProcessor->process($item->attr('href'));
-            $props['title'] = $item->text();
-
-            return new Genre($props);
+        $genres = $html->filter('.genre-drop-list__genre')->each(function (Crawler $item) {
+            return new Genre($this->processAnchor($item));
         });
 
         return collect($genres);

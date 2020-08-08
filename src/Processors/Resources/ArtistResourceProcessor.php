@@ -9,40 +9,41 @@ use Wimski\Beatport\Processors\Crawler;
 
 class ArtistResourceProcessor extends AbstractResourceProcessor
 {
-    protected function processSingle(): ?DataInterface
+    protected function processView(Crawler $html): ?DataInterface
     {
-        $interior = $this->getContentRoot()->get('.interior');
-        if (! $interior) {
-            return null;
-        }
-
-        $anchor = $interior->get('.interior-title a');
-        $props  = $this->urlProcessor->process($anchor->attr('href'));
-        $props['title'] = $anchor->getText('h1');
-
-        $artist = new Artist($props);
-        $artist->setArtwork($interior->getAttr('.interior-artist-artwork', 'src'));
+        $artist = new Artist($this->processAnchor($html->get('.interior-title a')));
+        $artist->setArtwork($html->getAttr('.interior-artist-artwork', 'src'));
 
         return $artist;
     }
 
-    protected function processMultiple(): ?Collection
+    protected function processIndex(Crawler $html): ?Collection
     {
-        $items = $this->getContentRoot()->filter('.bucket-items .bucket-item');
+        return $this->processMultiple($html);
+    }
+
+    protected function processSearch(Crawler $html): ?Collection
+    {
+        return $this->processMultiple($html);
+    }
+
+    protected function processMultiple(Crawler $html): ?Collection
+    {
+        $items = $html->filter('.bucket-items .bucket-item');
 
         if (! $items) {
             return null;
         }
 
         $artists = $items->each(function (Crawler $item) {
-           $anchor = $item->get('a');
-           $props  = $this->urlProcessor->process($anchor->attr('href'));
-           $props['title'] = $anchor->getText('.artist-name');
+            $anchor = $item->get('a');
+            $props  = $this->urlProcessor->process($anchor->attr('href'));
+            $props['title'] = $anchor->getText('.artist-name');
 
-           $artist = new Artist($props);
-           $artist->setArtwork($anchor->getAttr('img', 'src'));
+            $artist = new Artist($props);
+            $artist->setArtwork($anchor->getAttr('img', 'src'));
 
-           return $artist;
+            return $artist;
         });
 
         return collect($artists);
