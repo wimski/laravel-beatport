@@ -13,7 +13,7 @@ interface RequestBuilderInterface
 
     public function resource(): ResourceInterface;
 
-    public function multipleResults(): bool;
+    public function canHavePagination(): bool;
 
     /**
      * @param string $name

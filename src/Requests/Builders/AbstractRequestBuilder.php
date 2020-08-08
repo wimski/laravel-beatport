@@ -35,11 +35,6 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      */
     protected $pageSize;
 
-    /**
-     * @var bool
-     */
-    protected $multipleResults;
-
     public function __construct(ResourceInterface $resource)
     {
         $this->resource = $resource;
@@ -52,9 +47,13 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         return $this->resource;
     }
 
-    public function multipleResults(): bool
+    public function canHavePagination(): bool
     {
-        return $this->multipleResults === true;
+        return in_array($this->type()->getValue(), [
+            RequestTypeEnum::INDEX,
+            RequestTypeEnum::RELATIONSHIP,
+            RequestTypeEnum::SEARCH,
+        ]);
     }
 
     public function filter(string $name, $value): RequestBuilderInterface

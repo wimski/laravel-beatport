@@ -8,11 +8,6 @@ use Wimski\Beatport\Enums\RequestTypeEnum;
 class RelationshipRequestBuilder extends AbstractRequestBuilder
 {
     /**
-     * @var bool
-     */
-    protected $multipleResults = true;
-
-    /**
      * @var string
      */
     protected $slug;

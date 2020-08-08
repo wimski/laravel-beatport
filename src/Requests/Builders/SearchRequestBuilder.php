@@ -7,11 +7,6 @@ use Wimski\Beatport\Enums\RequestTypeEnum;
 class SearchRequestBuilder extends AbstractRequestBuilder
 {
     /**
-     * @var bool
-     */
-    protected $multipleResults = true;
-
-    /**
      * @var string
      */
     protected $query;

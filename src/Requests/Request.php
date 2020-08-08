@@ -47,7 +47,7 @@ class Request implements RequestInterface
 
         $response = $this->request();
 
-        if ($this->builder->multipleResults()) {
+        if ($this->builder->canHavePagination()) {
             $paginationProcessor = new PaginationProcessor();
             $this->pagination    = $paginationProcessor->process($response);
         }

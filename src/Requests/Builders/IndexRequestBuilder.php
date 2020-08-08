@@ -6,11 +6,6 @@ use Wimski\Beatport\Enums\RequestTypeEnum;
 
 class IndexRequestBuilder extends AbstractRequestBuilder
 {
-    /**
-     * @var bool
-     */
-    protected $multipleResults = true;
-
     public function type(): RequestTypeEnum
     {
         return RequestTypeEnum::INDEX();
