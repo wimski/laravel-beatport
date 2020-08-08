@@ -3,13 +3,14 @@
 namespace Wimski\Beatport\Contracts;
 
 use Illuminate\Support\Collection;
+use Wimski\Beatport\Enums\RequestTypeEnum;
 
 interface ProcessorInterface
 {
     /**
+     * @param RequestTypeEnum $requestType
      * @param string $html
-     * @param bool $multipleResources
      * @return Collection<DataInterface>|DataInterface|null
      */
-    public function process(string $html, bool $multipleResources);
+    public function process(RequestTypeEnum $requestType, string $html);
 }

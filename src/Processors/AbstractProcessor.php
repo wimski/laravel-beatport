@@ -5,6 +5,7 @@ namespace Wimski\Beatport\Processors;
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ProcessorInterface;
+use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Requests\Request;
 
@@ -15,15 +16,15 @@ abstract class AbstractProcessor implements ProcessorInterface
      */
     protected $crawler;
 
-    public function process(string $html, bool $multipleResources)
+    public function process(RequestTypeEnum $requestType, string $html)
     {
         $this->crawler = new Crawler($html);
 
-        if ($multipleResources) {
-            return $this->processMultiple();
+        if ($requestType->equals(RequestTypeEnum::VIEW)) {
+            return $this->processSingle();
         }
 
-        return $this->processSingle();
+        return $this->processMultiple();
     }
 
     protected function getContentRoot(): Crawler

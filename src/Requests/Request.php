@@ -106,7 +106,7 @@ class Request implements RequestInterface
 
         curl_close($ch);
 
-        $this->data = $this->processor->process($response, $this->builder->multipleResults());
+        $this->data = $this->processor->process($this->builder->type(), $response);
 
         return $response;
     }
