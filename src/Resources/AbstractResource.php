@@ -17,6 +17,10 @@ abstract class AbstractResource implements ResourceInterface
                 $filters = $this->indexFilters();
                 break;
 
+            case RequestTypeEnum::RELATIONSHIP:
+                $filters = $this->relationshipFilters();
+                break;
+
             case RequestTypeEnum::SEARCH:
                 $filters = $this->searchFilters();
                 break;
@@ -35,6 +39,10 @@ abstract class AbstractResource implements ResourceInterface
         switch ($requestType->getValue()) {
             case RequestTypeEnum::INDEX:
                 $sorts = $this->indexSorts();
+                break;
+
+            case RequestTypeEnum::RELATIONSHIP:
+                $sorts = $this->relationshipSorts();
                 break;
 
             case RequestTypeEnum::SEARCH:
@@ -68,6 +76,14 @@ abstract class AbstractResource implements ResourceInterface
     /**
      * @return Collection<RequestFilterInterface>
      */
+    protected function relationshipFilters(): Collection
+    {
+        return new Collection();
+    }
+
+    /**
+     * @return Collection<RequestFilterInterface>
+     */
     protected function searchFilters(): Collection
     {
         return new Collection();
@@ -77,6 +93,14 @@ abstract class AbstractResource implements ResourceInterface
      * @return Collection<RequestSortInterface>
      */
     protected function indexSorts(): Collection
+    {
+        return new Collection();
+    }
+
+    /**
+     * @return Collection<RequestSortInterface>
+     */
+    protected function relationshipSorts(): Collection
     {
         return new Collection();
     }

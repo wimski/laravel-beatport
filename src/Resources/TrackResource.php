@@ -28,11 +28,17 @@ class TrackResource extends AbstractResource
 
     protected function indexFilters(): Collection
     {
-        return $this->searchFilters()->merge([
+        return $this->relationshipFilters()->merge([
             PreorderFilter::make(),
-            TypeFilter::make(),
-            DateFilter::make(),
+        ]);
+    }
+
+    protected function relationshipFilters(): Collection
+    {
+        return $this->searchFilters()->merge([
             BpmFilter::make(),
+            DateFilter::make(),
+            TypeFilter::make(),
         ]);
     }
 
@@ -48,6 +54,11 @@ class TrackResource extends AbstractResource
     }
 
     protected function indexSorts(): Collection
+    {
+        return $this->sorts();
+    }
+
+    protected function relationshipSorts(): Collection
     {
         return $this->sorts();
     }

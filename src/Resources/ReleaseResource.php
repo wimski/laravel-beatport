@@ -26,10 +26,16 @@ class ReleaseResource extends AbstractResource
 
     protected function indexFilters(): Collection
     {
-        return $this->searchFilters()->merge([
+        return $this->relationshipFilters()->merge([
             PreorderFilter::make(),
-            TypeFilter::make(),
+        ]);
+    }
+
+    protected function relationshipFilters(): Collection
+    {
+        return $this->searchFilters()->merge([
             DateFilter::make(),
+            TypeFilter::make(),
         ]);
     }
 
