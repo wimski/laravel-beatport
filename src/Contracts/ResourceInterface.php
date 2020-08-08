@@ -11,4 +11,6 @@ interface ResourceInterface
     public function getFilter(string $requestType, string $name): ?RequestFilterInterface;
 
     public function getSort(string $requestType, string $name): ?RequestSortInterface;
+
+    public function hasRelationship(string $relationship): bool;
 }

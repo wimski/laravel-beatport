@@ -56,6 +56,13 @@ abstract class AbstractResource implements ResourceInterface
         })->first();
     }
 
+    public function hasRelationship(string $relationship): bool
+    {
+        return $this->relationships()->filter(function (string $class) use ($relationship) {
+            return $relationship === $class;
+        })->isNotEmpty();
+    }
+
     /**
      * @return Collection<RequestFilterInterface>
      */
@@ -84,6 +91,14 @@ abstract class AbstractResource implements ResourceInterface
      * @return Collection<RequestSortInterface>
      */
     protected function searchSorts(): Collection
+    {
+        return new Collection();
+    }
+
+    /**
+     * @return Collection<string>
+     */
+    protected function relationships(): Collection
     {
         return new Collection();
     }

@@ -7,11 +7,13 @@ use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Resources\Traits\CanView;
 use Wimski\Beatport\Resources\Traits\CanSearch;
+use Wimski\Beatport\Resources\Traits\HasRelationships;
 
 class ArtistResource extends AbstractResource
 {
     use CanView;
     use CanSearch;
+    use HasRelationships;
 
     public function type(): string
     {
@@ -23,6 +25,14 @@ class ArtistResource extends AbstractResource
         return collect([
             ResourceFilter::make('genre')->multiple(),
             ResourceFilter::make('subgenre')->multiple(),
+        ]);
+    }
+
+    protected function relationships(): Collection
+    {
+        return collect([
+            ReleaseResource::class,
+            TrackResource::class,
         ]);
     }
 }
