@@ -2,6 +2,8 @@
 
 namespace Wimski\Beatport\Resources\Traits;
 
+use Wimski\Beatport\Contracts\DataInterface;
+use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Contracts\ResourceInterface;
 use Wimski\Beatport\Exceptions\InvalidRelationshipException;
 use Wimski\Beatport\Exceptions\ResourceInterfaceException;
@@ -15,11 +17,11 @@ trait CanRelate
      * @param string $slug
      * @param int $id
      * @param string $relationship
-     * @return RelationshipRequestBuilder
+     * @return RequestBuilderInterface
      * @throws InvalidRelationshipException
      * @throws ResourceInterfaceException
      */
-    public static function relationship(string $slug, int $id, string $relationship)
+    public static function relationship(string $slug, int $id, string $relationship): RequestBuilderInterface
     {
         static::checkIfResourceInterface();
 
@@ -34,5 +36,10 @@ trait CanRelate
             ->slug($slug)
             ->id($id)
             ->parent($resource);
+    }
+
+    public static function relationshipByData(DataInterface $data, string $relationship): RequestBuilderInterface
+    {
+        return static::relationship($data->getSlug(), $data->getId(), $relationship);
     }
 }
