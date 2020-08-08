@@ -6,15 +6,23 @@ use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ProcessorInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
-use Wimski\Beatport\Enums\ResourceTypeEnum;
-use Wimski\Beatport\Requests\Request;
 
 abstract class AbstractProcessor implements ProcessorInterface
 {
     /**
+     * @var UrlProcessor
+     */
+    protected $urlProcessor;
+
+    /**
      * @var Crawler
      */
     protected $crawler;
+
+    public function __construct(UrlProcessor $urlProcessor)
+    {
+        $this->urlProcessor = $urlProcessor;
+    }
 
     public function process(RequestTypeEnum $requestType, string $html)
     {
@@ -43,28 +51,5 @@ abstract class AbstractProcessor implements ProcessorInterface
     protected function processMultiple(): ?Collection
     {
         return null;
-    }
-
-    protected function parseUrl(string $url): array
-    {
-        preg_match("/^{$this->getRegex()}/", $url, $matches);
-
-        return [
-            'type' => new ResourceTypeEnum($matches[1]),
-            'slug' => $matches[2],
-            'id'   => $matches[3],
-        ];
-    }
-
-    protected function getRegex(): string
-    {
-        $url = Request::URL;
-
-        $regex =  '(?:' . preg_quote($url, '/') . ')?\/?';
-        $regex .= '(' . implode('|', ResourceTypeEnum::values()) . ')\/?';
-        $regex .= '([a-z0-9\-\%]+)\/?';
-        $regex .= '(\d+)\/?';
-
-        return $regex;
     }
 }

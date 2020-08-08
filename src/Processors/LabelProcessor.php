@@ -16,7 +16,7 @@ class LabelProcessor extends AbstractProcessor
         }
 
         $anchor = $interior->get('.interior-title a');
-        $props  = $this->parseUrl($anchor->attr('href'));
+        $props  = $this->urlProcessor->process($anchor->attr('href'));
         $props['title'] = $anchor->getText('h1');
 
         $label = new Label($props);
@@ -35,7 +35,7 @@ class LabelProcessor extends AbstractProcessor
 
         $labels = $items->each(function (Crawler $item) {
             $anchor = $item->get('a');
-            $props  = $this->parseUrl($anchor->attr('href'));
+            $props  = $this->urlProcessor->process($anchor->attr('href'));
             $props['title'] = $anchor->getText('.label-name');
 
             $label = new Label($props);

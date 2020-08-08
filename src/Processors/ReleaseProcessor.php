@@ -26,7 +26,7 @@ class ReleaseProcessor extends AbstractProcessor
 
         $url = $this->crawler->filter('head meta')->getAttr('[name="og:url"]', 'content');
 
-        $release = new Release($this->parseUrl($url));
+        $release = new Release($this->urlProcessor->process($url));
 
         $left  = $interior->get('.interior-release-chart-artwork-parent');
         $right = $interior->get('.interior-release-chart-content');
@@ -46,7 +46,7 @@ class ReleaseProcessor extends AbstractProcessor
 
                 case 'Label':
                     $labelAnchor = $item->get('.value a');
-                    $labelProps  = $this->parseUrl($labelAnchor->attr('href'));
+                    $labelProps  = $this->urlProcessor->process($labelAnchor->attr('href'));
                     $labelProps['title'] = $labelAnchor->text();
                     $release->setLabel(new Label($labelProps));
                     break;
@@ -61,7 +61,7 @@ class ReleaseProcessor extends AbstractProcessor
         });
 
         $artists = $right->filter('.interior-release-chart-content-item [data-artist]')->each(function (Crawler $anchor) {
-            $props = $this->parseUrl($anchor->attr('href'));
+            $props = $this->urlProcessor->process($anchor->attr('href'));
             $props['title'] = $anchor->text();
             return new Artist($props);
         });
@@ -69,7 +69,7 @@ class ReleaseProcessor extends AbstractProcessor
 
         $tracks = $right->filter('.bucket.tracks .bucket-item')->each(function (Crawler $item) use ($release) {
             $anchor = $item->get('.buk-track-title a');
-            $props  = $this->parseUrl($anchor->attr('href'));
+            $props  = $this->urlProcessor->process($anchor->attr('href'));
             $props['title'] = $anchor->getText('.buk-track-primary-title');
 
             $track = new Track($props);
@@ -88,12 +88,12 @@ class ReleaseProcessor extends AbstractProcessor
                 ->setLabel($release->getLabel());
 
             $genreAnchor = $item->get('.buk-track-genre a');
-            $genreProps  = $this->parseUrl($genreAnchor->attr('href'));
+            $genreProps  = $this->urlProcessor->process($genreAnchor->attr('href'));
             $genreProps['title'] = $genreAnchor->text();
             $track->setGenre(new Genre($genreProps));
 
             $artists = $item->filter('.buk-track-artists a')->each(function (Crawler $anchor) {
-                $props = $this->parseUrl($anchor->attr('href'));
+                $props = $this->urlProcessor->process($anchor->attr('href'));
                 $props['title'] = $anchor->text();
 
                 return new Artist($props);
@@ -104,7 +104,7 @@ class ReleaseProcessor extends AbstractProcessor
             }
 
             $remixers = $item->filter('.buk-track-remixers a')->each(function (Crawler $anchor) {
-                $props = $this->parseUrl($anchor->attr('href'));
+                $props = $this->urlProcessor->process($anchor->attr('href'));
                 $props['title'] = $anchor->text();
 
                 return new Artist($props);
@@ -131,7 +131,7 @@ class ReleaseProcessor extends AbstractProcessor
 
         $releases = $items->each(function (Crawler $item) {
             $anchor = $item->get('.buk-horz-release-title a');
-            $props  = $this->parseUrl($anchor->attr('href'));
+            $props  = $this->urlProcessor->process($anchor->attr('href'));
             $props['title'] = $anchor->text();
 
             $release = new Release($props);
@@ -141,12 +141,12 @@ class ReleaseProcessor extends AbstractProcessor
                 ->setReleased($item->getText('.buk-horz-release-released'));
 
             $labelAnchor = $item->get('.buk-horz-release-labels a');
-            $labelProps  = $this->parseUrl($labelAnchor->attr('href'));
+            $labelProps  = $this->urlProcessor->process($labelAnchor->attr('href'));
             $labelProps['title'] = $labelAnchor->text();
             $release->setLabel(new Label($labelProps));
 
             $artists = $item->filter('.buk-horz-release-artists a')->each(function (Crawler $anchor) {
-                $props = $this->parseUrl($anchor->attr('href'));
+                $props = $this->urlProcessor->process($anchor->attr('href'));
                 $props['title'] = $anchor->text();
 
                 return new Artist($props);

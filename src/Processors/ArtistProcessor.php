@@ -16,7 +16,7 @@ class ArtistProcessor extends AbstractProcessor
         }
 
         $anchor = $interior->get('.interior-title a');
-        $props  = $this->parseUrl($anchor->attr('href'));
+        $props  = $this->urlProcessor->process($anchor->attr('href'));
         $props['title'] = $anchor->getText('h1');
 
         $artist = new Artist($props);
@@ -35,7 +35,7 @@ class ArtistProcessor extends AbstractProcessor
 
         $artists = $items->each(function (Crawler $item) {
            $anchor = $item->get('a');
-           $props  = $this->parseUrl($anchor->attr('href'));
+           $props  = $this->urlProcessor->process($anchor->attr('href'));
            $props['title'] = $anchor->getText('.artist-name');
 
            $artist = new Artist($props);
