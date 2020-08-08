@@ -56,7 +56,7 @@ abstract class AbstractProcessor implements ProcessorInterface
 
         $regex =  '(?:' . preg_quote($url, '/') . ')?\/?';
         $regex .= '(' . implode('|', ResourceTypeEnum::values()) . ')\/?';
-        $regex .= '([a-z0-9\-]+)\/?';
+        $regex .= '([a-z0-9\-\%]+)\/?';
         $regex .= '(\d+)\/?';
 
         return $regex;
