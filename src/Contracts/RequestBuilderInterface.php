@@ -2,13 +2,14 @@
 
 namespace Wimski\Beatport\Contracts;
 
+use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidFilterException;
 use Wimski\Beatport\Exceptions\InvalidPageSizeException;
 use Wimski\Beatport\Exceptions\InvalidSortException;
 
 interface RequestBuilderInterface
 {
-    public function type(): string;
+    public function type(): RequestTypeEnum;
 
     public function resource(): ResourceInterface;
 

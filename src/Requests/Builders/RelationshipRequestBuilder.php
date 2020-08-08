@@ -4,7 +4,6 @@ namespace Wimski\Beatport\Requests\Builders;
 
 use Wimski\Beatport\Contracts\ResourceInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
-use Wimski\Beatport\Enums\ResourceTypeEnum;
 
 class RelationshipRequestBuilder extends AbstractRequestBuilder
 {
@@ -28,9 +27,9 @@ class RelationshipRequestBuilder extends AbstractRequestBuilder
      */
     protected $parent;
 
-    public function type(): string
+    public function type(): RequestTypeEnum
     {
-        return RequestTypeEnum::INDEX;
+        return RequestTypeEnum::RELATIONSHIP();
     }
 
     public function slug(string $slug): self
@@ -58,10 +57,10 @@ class RelationshipRequestBuilder extends AbstractRequestBuilder
     {
         return implode('/', [
             '',
-            $this->parent->type(),
+            $this->parent->type()->getValue(),
             $this->slug,
             $this->id,
-            (new ResourceTypeEnum($this->resource->type()))->getValuePlural(),
+            $this->resource->type()->getValuePlural(),
         ]);
     }
 }

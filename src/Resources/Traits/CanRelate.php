@@ -7,7 +7,7 @@ use Wimski\Beatport\Exceptions\InvalidRelationshipException;
 use Wimski\Beatport\Exceptions\ResourceInterfaceException;
 use Wimski\Beatport\Requests\Builders\RelationshipRequestBuilder;
 
-trait HasRelationships
+trait CanRelate
 {
     use ResourceInterfaceTrait;
 

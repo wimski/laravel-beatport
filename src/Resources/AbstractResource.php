@@ -3,7 +3,6 @@
 namespace Wimski\Beatport\Resources;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Wimski\Beatport\Contracts\RequestFilterInterface;
 use Wimski\Beatport\Contracts\RequestSortInterface;
 use Wimski\Beatport\Contracts\ResourceInterface;
@@ -11,14 +10,9 @@ use Wimski\Beatport\Enums\RequestTypeEnum;
 
 abstract class AbstractResource implements ResourceInterface
 {
-    public function typePlural(): string
+    public function getFilter(RequestTypeEnum $requestType, string $name): ?RequestFilterInterface
     {
-        return Str::plural($this->type());
-    }
-
-    public function getFilter(string $requestType, string $name): ?RequestFilterInterface
-    {
-        switch ($requestType) {
+        switch ($requestType->getValue()) {
             case RequestTypeEnum::INDEX:
                 $filters = $this->indexFilters();
                 break;
@@ -36,9 +30,9 @@ abstract class AbstractResource implements ResourceInterface
         })->first();
     }
 
-    public function getSort(string $requestType, string $name): ?RequestSortInterface
+    public function getSort(RequestTypeEnum $requestType, string $name): ?RequestSortInterface
     {
-        switch ($requestType) {
+        switch ($requestType->getValue()) {
             case RequestTypeEnum::INDEX:
                 $sorts = $this->indexSorts();
                 break;

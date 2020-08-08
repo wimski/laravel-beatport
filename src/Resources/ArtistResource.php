@@ -7,17 +7,17 @@ use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Resources\Traits\CanView;
 use Wimski\Beatport\Resources\Traits\CanSearch;
-use Wimski\Beatport\Resources\Traits\HasRelationships;
+use Wimski\Beatport\Resources\Traits\CanRelate;
 
 class ArtistResource extends AbstractResource
 {
-    use CanView;
+    use CanRelate;
     use CanSearch;
-    use HasRelationships;
+    use CanView;
 
-    public function type(): string
+    public function type(): ResourceTypeEnum
     {
-        return ResourceTypeEnum::ARTIST;
+        return ResourceTypeEnum::ARTIST();
     }
 
     protected function searchFilters(): Collection

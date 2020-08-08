@@ -5,16 +5,16 @@ namespace Wimski\Beatport\Resources;
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Resources\Traits\CanIndex;
-use Wimski\Beatport\Resources\Traits\HasRelationships;
+use Wimski\Beatport\Resources\Traits\CanRelate;
 
 class GenreResource extends AbstractResource
 {
+    use CanRelate;
     use CanIndex;
-    use HasRelationships;
 
-    public function type(): string
+    public function type(): ResourceTypeEnum
     {
-        return ResourceTypeEnum::GENRE;
+        return ResourceTypeEnum::GENRE();
     }
 
     protected function relationships(): Collection

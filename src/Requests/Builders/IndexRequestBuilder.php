@@ -11,13 +11,13 @@ class IndexRequestBuilder extends AbstractRequestBuilder
      */
     protected $multipleResults = true;
 
-    public function type(): string
+    public function type(): RequestTypeEnum
     {
-        return RequestTypeEnum::INDEX;
+        return RequestTypeEnum::INDEX();
     }
 
     public function path(): string
     {
-        return '/' . $this->resource->typePlural() . '/all';
+        return '/' . $this->resource->type()->getValuePlural() . '/all';
     }
 }

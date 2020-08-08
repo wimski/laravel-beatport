@@ -2,15 +2,16 @@
 
 namespace Wimski\Beatport\Contracts;
 
+use Wimski\Beatport\Enums\RequestTypeEnum;
+use Wimski\Beatport\Enums\ResourceTypeEnum;
+
 interface ResourceInterface
 {
-    public function type(): string;
+    public function type(): ResourceTypeEnum;
 
-    public function typePlural(): string;
+    public function getFilter(RequestTypeEnum $requestType, string $name): ?RequestFilterInterface;
 
-    public function getFilter(string $requestType, string $name): ?RequestFilterInterface;
-
-    public function getSort(string $requestType, string $name): ?RequestSortInterface;
+    public function getSort(RequestTypeEnum $requestType, string $name): ?RequestSortInterface;
 
     public function hasRelationship(string $relationship): bool;
 }

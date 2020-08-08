@@ -16,9 +16,9 @@ class SearchRequestBuilder extends AbstractRequestBuilder
      */
     protected $query;
 
-    public function type(): string
+    public function type(): RequestTypeEnum
     {
-        return RequestTypeEnum::SEARCH;
+        return RequestTypeEnum::SEARCH();
     }
 
     public function query(string $query): self
@@ -30,7 +30,7 @@ class SearchRequestBuilder extends AbstractRequestBuilder
 
     public function path(): string
     {
-        return '/search/' . $this->resource->typePlural();
+        return '/search/' . $this->resource->type()->getValuePlural();
     }
 
     public function queryParams(): array

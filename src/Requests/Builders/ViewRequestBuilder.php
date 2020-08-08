@@ -16,9 +16,9 @@ class ViewRequestBuilder extends AbstractRequestBuilder
      */
     protected $id;
 
-    public function type(): string
+    public function type(): RequestTypeEnum
     {
-        return RequestTypeEnum::VIEW;
+        return RequestTypeEnum::VIEW();
     }
 
     public function slug(string $slug): self
@@ -39,7 +39,7 @@ class ViewRequestBuilder extends AbstractRequestBuilder
     {
         return implode('/', [
             '',
-            $this->resource->type(),
+            $this->resource->type()->getValue(),
             $this->slug,
             $this->id,
         ]);

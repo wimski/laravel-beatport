@@ -18,12 +18,12 @@ use Wimski\Beatport\Resources\Traits\CanSearch;
 class TrackResource extends AbstractResource
 {
     use CanIndex;
-    use CanView;
     use CanSearch;
+    use CanView;
 
-    public function type(): string
+    public function type(): ResourceTypeEnum
     {
-        return ResourceTypeEnum::TRACK;
+        return ResourceTypeEnum::TRACK();
     }
 
     protected function indexFilters(): Collection

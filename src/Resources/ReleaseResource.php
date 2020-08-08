@@ -16,12 +16,12 @@ use Wimski\Beatport\Resources\Traits\CanSearch;
 class ReleaseResource extends AbstractResource
 {
     use CanIndex;
-    use CanView;
     use CanSearch;
+    use CanView;
 
-    public function type(): string
+    public function type(): ResourceTypeEnum
     {
-        return ResourceTypeEnum::RELEASE;
+        return ResourceTypeEnum::RELEASE();
     }
 
     protected function indexFilters(): Collection
