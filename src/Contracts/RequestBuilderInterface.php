@@ -2,9 +2,9 @@
 
 namespace Wimski\Beatport\Contracts;
 
+use Wimski\Beatport\Enums\RequestPageSizeEnum;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidFilterException;
-use Wimski\Beatport\Exceptions\InvalidPageSizeException;
 use Wimski\Beatport\Exceptions\InvalidSortException;
 
 interface RequestBuilderInterface
@@ -31,12 +31,7 @@ interface RequestBuilderInterface
      */
     public function sort(string $name, string $direction = 'asc'): RequestBuilderInterface;
 
-    /**
-     * @param int $pageSize
-     * @return RequestBuilderInterface
-     * @throws InvalidPageSizeException
-     */
-    public function pageSize(int $pageSize): RequestBuilderInterface;
+    public function pageSize(RequestPageSizeEnum $pageSize): RequestBuilderInterface;
 
     public function path(): string;
 

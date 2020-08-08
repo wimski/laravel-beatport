@@ -9,8 +9,8 @@ use Wimski\Beatport\Contracts\RequestInterface;
 use Wimski\Beatport\Contracts\RequestSortInterface;
 use Wimski\Beatport\Contracts\ResourceInterface;
 use Wimski\Beatport\Enums\RequestPageSizeEnum;
+use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidFilterException;
-use Wimski\Beatport\Exceptions\InvalidPageSizeException;
 use Wimski\Beatport\Exceptions\InvalidSortException;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
@@ -31,7 +31,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     protected $sort;
 
     /**
-     * @var int
+     * @var RequestPageSizeEnum
      */
     protected $pageSize;
 
@@ -39,7 +39,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     {
         $this->resource = $resource;
 
-        $this->filters = new Collection();
+        $this->filters  = new Collection();
+        $this->pageSize = RequestPageSizeEnum::PAGE_SIZE_25();
     }
 
     public function resource(): ResourceInterface
@@ -90,12 +91,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         return $this;
     }
 
-    public function pageSize(int $pageSize): RequestBuilderInterface
+    public function pageSize(RequestPageSizeEnum $pageSize): RequestBuilderInterface
     {
-        if (! RequestPageSizeEnum::isValid($pageSize)) {
-            throw new InvalidPageSizeException('');
-        }
-
         $this->pageSize = $pageSize;
 
         return $this;
@@ -105,8 +102,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     {
         $params = [];
 
-        if ($this->pageSize) {
-            $params['per-page'] = $this->pageSize;
+        if ($this->canHavePagination()) {
+            $params['per-page'] = $this->pageSize->getValue();
         }
 
         /** @var RequestFilterInterface $filter */
