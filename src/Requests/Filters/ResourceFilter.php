@@ -95,7 +95,13 @@ class ResourceFilter extends AbstractFilter
     protected function processSingleValue($input): array
     {
         if (! is_int($input)) {
-            throw new InvalidFilterInputException('The ResourceFilter input must be an int when not given an array');
+            $error = 'The ResourceFilter input must be an int';
+
+            if ($this->supportsMultipleValues) {
+                $error .= ' when not given an array';
+            }
+
+            throw new InvalidFilterInputException($error);
         }
 
         return [$input];
