@@ -63,15 +63,11 @@ class Pagination
 
     public function add(int $count): self
     {
-        $this->current = min($this->current + $count, $this->total);
-
-        return $this;
+        return $this->page($this->current + $count);
     }
 
     public function sub(int $count): self
     {
-        $this->current = max($this->current - $count, 1);
-
-        return $this;
+        return $this->page($this->current - $count);
     }
 }
