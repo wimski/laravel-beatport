@@ -2,8 +2,6 @@
 
 namespace Wimski\Beatport\Tests\Resources;
 
-use Mockery;
-use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Contracts\RequestSortInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
@@ -13,20 +11,12 @@ use Wimski\Beatport\Requests\Filters\PreorderFilter;
 use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Requests\Filters\TypeFilter;
 use Wimski\Beatport\Resources\ReleaseResource;
-use Wimski\Beatport\Tests\TestCase;
 
-class ReleaseResourceTest extends TestCase
+class ReleaseResourceTest extends AbstractResourceTest
 {
-    /**
-     * @var ReleaseResource
-     */
-    protected $resource;
-
-    protected function setUp(): void
+    protected function resourceClass(): string
     {
-        parent::setUp();
-
-        $this->resource = new ReleaseResource();
+        return ReleaseResource::class;
     }
 
     /**
@@ -329,13 +319,5 @@ class ReleaseResourceTest extends TestCase
             RequestBuilderInterface::class,
             ReleaseResource::findByData($this->getDataMock()),
         );
-    }
-
-    protected function getDataMock(): DataInterface
-    {
-        return Mockery::mock(DataInterface::class)
-            ->shouldReceive('getSlug')->once()->andReturn('')
-            ->shouldReceive('getId')->once()->andReturn(1)
-            ->getMock();
     }
 }

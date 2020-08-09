@@ -2,8 +2,6 @@
 
 namespace Wimski\Beatport\Tests\Resources;
 
-use Mockery;
-use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Contracts\RequestSortInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
@@ -14,20 +12,12 @@ use Wimski\Beatport\Requests\Filters\PreorderFilter;
 use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Requests\Filters\TypeFilter;
 use Wimski\Beatport\Resources\TrackResource;
-use Wimski\Beatport\Tests\TestCase;
 
-class TrackResourceTest extends TestCase
+class TrackResourceTest extends AbstractResourceTest
 {
-    /**
-     * @var TrackResource
-     */
-    protected $resource;
-
-    protected function setUp(): void
+    protected function resourceClass(): string
     {
-        parent::setUp();
-
-        $this->resource = new TrackResource();
+        return TrackResource::class;
     }
 
     /**
@@ -493,13 +483,5 @@ class TrackResourceTest extends TestCase
             RequestBuilderInterface::class,
             TrackResource::findByData($this->getDataMock()),
         );
-    }
-
-    protected function getDataMock(): DataInterface
-    {
-        return Mockery::mock(DataInterface::class)
-            ->shouldReceive('getSlug')->once()->andReturn('')
-            ->shouldReceive('getId')->once()->andReturn(1)
-            ->getMock();
     }
 }

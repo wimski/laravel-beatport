@@ -2,8 +2,6 @@
 
 namespace Wimski\Beatport\Tests\Resources;
 
-use Mockery;
-use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
@@ -11,20 +9,12 @@ use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Resources\ArtistResource;
 use Wimski\Beatport\Resources\ReleaseResource;
 use Wimski\Beatport\Resources\TrackResource;
-use Wimski\Beatport\Tests\TestCase;
 
-class ArtistResourceTest extends TestCase
+class ArtistResourceTest extends AbstractResourceTest
 {
-    /**
-     * @var ArtistResource
-     */
-    protected $resource;
-
-    protected function setUp(): void
+    protected function resourceClass(): string
     {
-        parent::setUp();
-
-        $this->resource = new ArtistResource();
+        return ArtistResource::class;
     }
 
     /**
@@ -138,13 +128,5 @@ class ArtistResourceTest extends TestCase
             RequestBuilderInterface::class,
             ArtistResource::findByData($this->getDataMock()),
         );
-    }
-
-    protected function getDataMock(): DataInterface
-    {
-        return Mockery::mock(DataInterface::class)
-            ->shouldReceive('getSlug')->once()->andReturn('')
-            ->shouldReceive('getId')->once()->andReturn(1)
-            ->getMock();
     }
 }

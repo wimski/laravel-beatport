@@ -2,27 +2,17 @@
 
 namespace Wimski\Beatport\Tests\Resources;
 
-use Mockery;
-use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Resources\GenreResource;
 use Wimski\Beatport\Resources\ReleaseResource;
 use Wimski\Beatport\Resources\TrackResource;
-use Wimski\Beatport\Tests\TestCase;
 
-class GenreResourceTest extends TestCase
+class GenreResourceTest extends AbstractResourceTest
 {
-    /**
-     * @var GenreResource
-     */
-    protected $resource;
-
-    protected function setUp(): void
+    protected function resourceClass(): string
     {
-        parent::setUp();
-
-        $this->resource = new GenreResource();
+        return GenreResource::class;
     }
 
     /**
@@ -81,13 +71,5 @@ class GenreResourceTest extends TestCase
             RequestBuilderInterface::class,
             GenreResource::relationshipByData($this->getDataMock(), TrackResource::class),
         );
-    }
-
-    protected function getDataMock(): DataInterface
-    {
-        return Mockery::mock(DataInterface::class)
-            ->shouldReceive('getSlug')->once()->andReturn('')
-            ->shouldReceive('getId')->once()->andReturn(1)
-            ->getMock();
     }
 }
