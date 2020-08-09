@@ -4,7 +4,7 @@
 
 # Laravel Beatport: A Website Based API
 
-This package creates an API layer on https://www.beatport.com for Laravel using simple.
+Beatport is, besides a webshop, a database for electronic music with high quality up-to-date content. Unfortunately there is no open API at this point. This package creates an API layer using requests on https://www.beatport.com.
 
 ## Installation
 
