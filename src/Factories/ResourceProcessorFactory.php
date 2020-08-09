@@ -14,7 +14,7 @@ use Wimski\Beatport\Processors\Resources\LabelResourceProcessor;
 use Wimski\Beatport\Processors\Resources\ReleaseResourceProcessor;
 use Wimski\Beatport\Processors\Resources\TrackResourceProcessor;
 
-class ResourceResourceProcessorFactory implements ResourceProcessorFactoryInterface
+class ResourceProcessorFactory implements ResourceProcessorFactoryInterface
 {
     /**
      * @var Container
