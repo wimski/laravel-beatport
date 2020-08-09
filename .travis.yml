@@ -11,7 +11,7 @@ script:
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
-  - vendor/bin/coveralls -v
+  - vendor/bin/php-coveralls -v
 
 notifications:
   email:
