@@ -14,7 +14,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=7.3",
         "ext-curl": "*",
         "khill/php-duration": "^1.0",
         "myclabs/php-enum": "^1.7",
