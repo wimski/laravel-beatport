@@ -12,6 +12,4 @@ interface RequestInterface
     public function data();
 
     public function paginate(string $action, int $amount = null): RequestInterface;
-
-    public function url(): string;
 }

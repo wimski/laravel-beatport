@@ -2,6 +2,8 @@
 
 namespace Wimski\Beatport\Providers;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\RequestInterface;
@@ -21,6 +23,7 @@ class BeatportServiceProvider extends ServiceProvider
     {
         $this->app->bind(RequestInterface::class, Request::class);
         $this->app->singleton(ResourceProcessorFactoryInterface::class, ResourceProcessorFactory::class);
+        $this->app->singleton(ClientInterface::class, Client::class);
 
         return $this;
     }

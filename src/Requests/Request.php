@@ -2,6 +2,7 @@
 
 namespace Wimski\Beatport\Requests;
 
+use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
@@ -12,6 +13,11 @@ use Wimski\Beatport\Processors\PaginationProcessor;
 class Request implements RequestInterface
 {
     public const URL = 'https://www.beatport.com';
+
+    /**
+     * @var ClientInterface
+     */
+    protected $guzzle;
 
     /**
      * @var ResourceProcessorFactoryInterface
@@ -39,9 +45,12 @@ class Request implements RequestInterface
     protected $pagination;
 
     public function __construct(
+        ClientInterface $guzzle,
         ResourceProcessorFactoryInterface $resourceProcessorFactory,
+        PaginationProcessor $paginationProcessor,
         RequestConfig $config
     ) {
+        $this->guzzle                   = $guzzle;
         $this->resourceProcessorFactory = $resourceProcessorFactory;
         $this->config                   = $config;
 
@@ -50,8 +59,7 @@ class Request implements RequestInterface
         $response = $this->request();
 
         if ($this->config->canHavePagination()) {
-            $paginationProcessor = new PaginationProcessor();
-            $this->pagination    = $paginationProcessor->process($response);
+            $this->pagination = $paginationProcessor->process($response);
         }
     }
 
@@ -73,7 +81,7 @@ class Request implements RequestInterface
         return $this;
     }
 
-    public function url(): string
+    protected function request(): string
     {
         $url = static::URL . $this->config->path();
 
@@ -83,30 +91,12 @@ class Request implements RequestInterface
             $params['page'] = $this->pagination->current();
         }
 
-        if (! empty($params)) {
-            $url .= '?' . http_build_query($params);
-        }
-
-        return $url;
-    }
-
-    protected function request(): string
-    {
-        $ch = curl_init();
-
-        curl_setopt_array($ch, [
-            CURLOPT_URL            => $this->url(),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER     => [
-                'Accept-Language: en-US,en',
+        $response = $this->guzzle->request('GET', $url, [
+            'headers' => [
+                'Accept-Language' => 'en-US,en',
             ],
-        ]);
-
-        $response = curl_exec($ch);
-
-        curl_close($ch);
+            'query' => $params,
+        ])->getBody();
 
         $this->data = $this->resourceProcessor->process($this->config->requestType(), $response);
 
