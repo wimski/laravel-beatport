@@ -18,9 +18,4 @@ trait ParsesDate
 
         return Carbon::parse($date);
     }
-
-    protected function formatDate(Carbon $date): string
-    {
-        return $date->format('Y-m-d');
-    }
 }

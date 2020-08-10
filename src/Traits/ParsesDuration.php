@@ -18,9 +18,4 @@ trait ParsesDuration
 
         return (new Duration($duration))->toSeconds();
     }
-
-    protected function formatDuration(int $duration): string
-    {
-        return (new Duration($duration))->formatted();
-    }
 }
