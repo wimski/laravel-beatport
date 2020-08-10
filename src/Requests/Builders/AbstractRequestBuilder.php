@@ -2,6 +2,7 @@
 
 namespace Wimski\Beatport\Requests\Builders;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Contracts\RequestFilterInterface;
@@ -12,9 +13,15 @@ use Wimski\Beatport\Enums\RequestPageSizeEnum;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidFilterException;
 use Wimski\Beatport\Exceptions\InvalidSortException;
+use Wimski\Beatport\Requests\RequestConfig;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
+    /**
+     * @var Container
+     */
+    protected $app;
+
     /**
      * @var ResourceInterface
      */
@@ -35,8 +42,9 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      */
     protected $pageSize;
 
-    public function __construct(ResourceInterface $resource)
+    public function __construct(Container $app, ResourceInterface $resource)
     {
+        $this->app      = $app;
         $this->resource = $resource;
 
         $this->filters  = new Collection();
@@ -120,8 +128,14 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
 
     public function get(): RequestInterface
     {
-        return resolve(RequestInterface::class, [
-            'builder' => $this,
+        return $this->app->make(RequestInterface::class, [
+            'config' => new RequestConfig(
+                $this->resource->type(),
+                $this->type(),
+                $this->canHavePagination(),
+                $this->path(),
+                $this->queryParams(),
+            ),
         ]);
     }
 }

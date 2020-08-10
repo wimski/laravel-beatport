@@ -17,6 +17,8 @@ trait CanIndex
         /** @var ResourceInterface $resource */
         $resource = new static();
 
-        return new IndexRequestBuilder($resource);
+        return resolve(IndexRequestBuilder::class, [
+            'resource' => $resource,
+        ]);
     }
 }

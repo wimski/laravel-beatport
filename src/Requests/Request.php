@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
-use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Contracts\RequestInterface;
 use Wimski\Beatport\Processors\PaginationProcessor;
 
@@ -20,9 +19,9 @@ class Request implements RequestInterface
     protected $resourceProcessorFactory;
 
     /**
-     * @var RequestBuilderInterface
+     * @var RequestConfig
      */
-    protected $builder;
+    protected $config;
 
     /**
      * @var ResourceProcessorInterface
@@ -41,16 +40,16 @@ class Request implements RequestInterface
 
     public function __construct(
         ResourceProcessorFactoryInterface $resourceProcessorFactory,
-        RequestBuilderInterface $builder
+        RequestConfig $config
     ) {
         $this->resourceProcessorFactory = $resourceProcessorFactory;
-        $this->builder                  = $builder;
+        $this->config                   = $config;
 
-        $this->resourceProcessor = $this->resourceProcessorFactory->make($builder->resource());
+        $this->resourceProcessor = $this->resourceProcessorFactory->make($config->resourceType());
 
         $response = $this->request();
 
-        if ($this->builder->canHavePagination()) {
+        if ($this->config->canHavePagination()) {
             $paginationProcessor = new PaginationProcessor();
             $this->pagination    = $paginationProcessor->process($response);
         }
@@ -76,9 +75,9 @@ class Request implements RequestInterface
 
     public function url(): string
     {
-        $url = static::URL . $this->builder->path();
+        $url = static::URL . $this->config->path();
 
-        $params = $this->builder->queryParams();
+        $params = $this->config->queryParams();
 
         if ($this->pagination && $this->pagination->current() > 1) {
             $params['page'] = $this->pagination->current();
@@ -109,7 +108,7 @@ class Request implements RequestInterface
 
         curl_close($ch);
 
-        $this->data = $this->resourceProcessor->process($this->builder->type(), $response);
+        $this->data = $this->resourceProcessor->process($this->config->requestType(), $response);
 
         return $response;
     }

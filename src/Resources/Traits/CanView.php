@@ -18,7 +18,11 @@ trait CanView
         /** @var ResourceInterface $resource */
         $resource = new static();
 
-        return (new ViewRequestBuilder($resource))
+        $builder = resolve(ViewRequestBuilder::class, [
+            'resource' => $resource,
+        ]);
+
+        return $builder
             ->slug($slug)
             ->id($id);
     }

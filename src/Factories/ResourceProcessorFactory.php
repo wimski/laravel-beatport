@@ -26,11 +26,11 @@ class ResourceProcessorFactory implements ResourceProcessorFactoryInterface
         $this->app = $app;
     }
 
-    public function make(ResourceInterface $resource): ResourceProcessorInterface
+    public function make(ResourceTypeEnum $type): ResourceProcessorInterface
     {
-        $type = $resource->type()->getValue();
+        $value = $type->getValue();
 
-        switch ($type) {
+        switch ($value) {
             case ResourceTypeEnum::ARTIST:
                 return $this->app->make(ArtistResourceProcessor::class);
 
@@ -47,7 +47,7 @@ class ResourceProcessorFactory implements ResourceProcessorFactoryInterface
                 return $this->app->make(TrackResourceProcessor::class);
 
             default:
-                throw new InvalidResourceException("Cannot make a processor for {$type} resource");
+                throw new InvalidResourceException("Cannot make a processor for type {$value}");
         }
     }
 }

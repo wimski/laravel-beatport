@@ -17,6 +17,10 @@ trait CanSearch
         /** @var ResourceInterface $resource */
         $resource = new static();
 
-        return (new SearchRequestBuilder($resource))->query($query);
+        $builder = resolve(SearchRequestBuilder::class, [
+            'resource' => $resource,
+        ]);
+
+        return $builder->query($query);
     }
 }

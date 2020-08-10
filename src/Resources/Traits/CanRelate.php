@@ -32,7 +32,11 @@ trait CanRelate
             throw new InvalidRelationshipException("Relationship {$relationship} is not supported " . get_class($resource));
         }
 
-        return (new RelationshipRequestBuilder(new $relationship()))
+        $builder = resolve(RelationshipRequestBuilder::class, [
+            'resource' => new $relationship(),
+        ]);
+
+        return $builder
             ->slug($slug)
             ->id($id)
             ->parent($resource);

@@ -2,14 +2,15 @@
 
 namespace Wimski\Beatport\Contracts;
 
+use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidResourceException;
 
 interface ResourceProcessorFactoryInterface
 {
     /**
-     * @param ResourceInterface $resource
+     * @param ResourceTypeEnum $type
      * @return ResourceProcessorInterface
      * @throws InvalidResourceException
      */
-    public function make(ResourceInterface $resource): ResourceProcessorInterface;
+    public function make(ResourceTypeEnum $type): ResourceProcessorInterface;
 }
