@@ -3,6 +3,7 @@
 namespace Wimski\Beatport\Contracts;
 
 use Illuminate\Support\Collection;
+use Wimski\Beatport\Enums\PaginationActionEnum;
 
 interface RequestInterface
 {
@@ -11,5 +12,5 @@ interface RequestInterface
      */
     public function data();
 
-    public function paginate(string $action, int $amount = null): RequestInterface;
+    public function paginate(PaginationActionEnum $action, int $amount = null): RequestInterface;
 }

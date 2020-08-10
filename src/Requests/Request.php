@@ -8,6 +8,7 @@ use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Contracts\RequestInterface;
+use Wimski\Beatport\Enums\PaginationActionEnum;
 use Wimski\Beatport\Processors\PaginationProcessor;
 
 class Request implements RequestInterface
@@ -68,13 +69,13 @@ class Request implements RequestInterface
         return $this->data;
     }
 
-    public function paginate(string $action, int $amount = null): RequestInterface
+    public function paginate(PaginationActionEnum $action, int $amount = null): RequestInterface
     {
-        if (! $this->pagination || ! method_exists($this->pagination, $action)) {
+        if (! $this->pagination) {
             return $this;
         }
 
-        $this->pagination->{$action}($amount);
+        $this->pagination->{$action->getValue()}($amount);
 
         $this->request();
 
