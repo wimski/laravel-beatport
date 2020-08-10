@@ -15,7 +15,7 @@ class ResourceTypeEnumTest extends TestCase
     {
         $enum = new ResourceTypeEnum($value);
 
-        static::assertEquals($plural, $enum->getValuePlural());
+        static::assertSame($plural, $enum->getValuePlural());
     }
 
     public function resourceTypes(): array

@@ -22,7 +22,7 @@ class PreorderFilterTest extends TestCase
     {
         $filter = new PreorderFilter();
 
-        static::assertEquals('preorder', $filter->name());
+        static::assertSame('preorder', $filter->name());
     }
 
     /**

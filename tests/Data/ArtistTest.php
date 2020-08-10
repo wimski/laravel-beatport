@@ -22,13 +22,13 @@ class ArtistTest extends AbstractDataTest
     public function it_has_an_artwork(): void
     {
         $object = $this->getDataObject(['artwork' => 'artwork']);
-        static::assertEquals('artwork', $object->getArtwork());
+        static::assertSame('artwork', $object->getArtwork());
 
         $object = $this->getDataObject();
         static::assertNull($object->getArtwork());
 
         $object->setArtwork('artwork');
-        static::assertEquals('artwork', $object->getArtwork());
+        static::assertSame('artwork', $object->getArtwork());
     }
 
     /**

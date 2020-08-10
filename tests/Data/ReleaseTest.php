@@ -24,13 +24,13 @@ class ReleaseTest extends AbstractDataTest
     public function it_has_an_artwork(): void
     {
         $object = $this->getDataObject(['artwork' => 'artwork']);
-        static::assertEquals('artwork', $object->getArtwork());
+        static::assertSame('artwork', $object->getArtwork());
 
         $object = $this->getDataObject();
         static::assertNull($object->getArtwork());
 
         $object->setArtwork('artwork');
-        static::assertEquals('artwork', $object->getArtwork());
+        static::assertSame('artwork', $object->getArtwork());
     }
 
     /**
@@ -39,13 +39,13 @@ class ReleaseTest extends AbstractDataTest
     public function it_has_a_description(): void
     {
         $object = $this->getDataObject(['description' => 'description']);
-        static::assertEquals('description', $object->getDescription());
+        static::assertSame('description', $object->getDescription());
 
         $object = $this->getDataObject();
         static::assertNull($object->getDescription());
 
         $object->setDescription('description');
-        static::assertEquals('description', $object->getDescription());
+        static::assertSame('description', $object->getDescription());
     }
 
     /**
@@ -54,13 +54,13 @@ class ReleaseTest extends AbstractDataTest
     public function it_has_a_catalog(): void
     {
         $object = $this->getDataObject(['catalog' => 'catalog']);
-        static::assertEquals('catalog', $object->getCatalog());
+        static::assertSame('catalog', $object->getCatalog());
 
         $object = $this->getDataObject();
         static::assertNull($object->getCatalog());
 
         $object->setCatalog('catalog');
-        static::assertEquals('catalog', $object->getCatalog());
+        static::assertSame('catalog', $object->getCatalog());
     }
 
     /**

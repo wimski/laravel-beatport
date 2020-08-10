@@ -23,7 +23,7 @@ class TypeFilterTest extends TestCase
     {
         $filter = new TypeFilter();
 
-        static::assertEquals('type', $filter->name());
+        static::assertSame('type', $filter->name());
     }
 
     /**

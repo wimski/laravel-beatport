@@ -23,7 +23,7 @@ class ResourceFilterTest extends TestCase
     {
         $filter = new ResourceFilter('name');
 
-        static::assertEquals('name', $filter->name());
+        static::assertSame('name', $filter->name());
     }
 
     /**
@@ -33,7 +33,7 @@ class ResourceFilterTest extends TestCase
     {
         $filter = new ResourceFilter('key');
 
-        static::assertEquals('key', $filter->key());
+        static::assertSame('key', $filter->key());
     }
 
     /**

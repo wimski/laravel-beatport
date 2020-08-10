@@ -23,7 +23,7 @@ class BpmFilterTest extends TestCase
     {
         $filter = new BpmFilter();
 
-        static::assertEquals('bpm', $filter->name());
+        static::assertSame('bpm', $filter->name());
     }
 
     /**

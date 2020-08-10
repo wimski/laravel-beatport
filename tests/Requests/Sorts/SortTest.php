@@ -23,7 +23,7 @@ class SortTest extends TestCase
     {
         $sort = new Sort('name');
 
-        static::assertEquals('name', $sort->name());
+        static::assertSame('name', $sort->name());
     }
 
     /**

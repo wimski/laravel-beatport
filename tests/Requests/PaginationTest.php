@@ -24,7 +24,7 @@ class PaginationTest extends TestCase
      */
     public function it_has_a_current_page(): void
     {
-        static::assertEquals(31, $this->pagination->current());
+        static::assertSame(31, $this->pagination->current());
     }
 
     /**
@@ -32,7 +32,7 @@ class PaginationTest extends TestCase
      */
     public function it_has_a_total_page_count(): void
     {
-        static::assertEquals(96, $this->pagination->total());
+        static::assertSame(96, $this->pagination->total());
     }
 
     /**
@@ -40,7 +40,7 @@ class PaginationTest extends TestCase
      */
     public function it_updates_the_current_page(): void
     {
-        static::assertEquals(47, $this->pagination->page(47)->current());
+        static::assertSame(47, $this->pagination->page(47)->current());
     }
 
     /**
@@ -48,7 +48,7 @@ class PaginationTest extends TestCase
      */
     public function it_does_not_update_the_current_page_to_lower_than_one(): void
     {
-        static::assertEquals(1, $this->pagination->page(-1)->current());
+        static::assertSame(1, $this->pagination->page(-1)->current());
     }
 
     /**
@@ -56,7 +56,7 @@ class PaginationTest extends TestCase
      */
     public function it_does_not_update_the_current_page_to_higher_than_total(): void
     {
-        static::assertEquals(96, $this->pagination->page(100)->current());
+        static::assertSame(96, $this->pagination->page(100)->current());
     }
 
     /**
@@ -64,7 +64,7 @@ class PaginationTest extends TestCase
      */
     public function it_updates_the_current_page_to_first(): void
     {
-        static::assertEquals(1, $this->pagination->first()->current());
+        static::assertSame(1, $this->pagination->first()->current());
     }
 
     /**
@@ -72,7 +72,7 @@ class PaginationTest extends TestCase
      */
     public function it_updates_the_current_page_to_last(): void
     {
-        static::assertEquals(96, $this->pagination->last()->current());
+        static::assertSame(96, $this->pagination->last()->current());
     }
 
     /**
@@ -80,7 +80,7 @@ class PaginationTest extends TestCase
      */
     public function it_updates_the_current_page_to_next(): void
     {
-        static::assertEquals(32, $this->pagination->next()->current());
+        static::assertSame(32, $this->pagination->next()->current());
     }
 
     /**
@@ -88,7 +88,7 @@ class PaginationTest extends TestCase
      */
     public function it_updates_the_current_page_to_prev(): void
     {
-        static::assertEquals(30, $this->pagination->prev()->current());
+        static::assertSame(30, $this->pagination->prev()->current());
     }
 
     /**
@@ -96,7 +96,7 @@ class PaginationTest extends TestCase
      */
     public function it_adds_pages(): void
     {
-        static::assertEquals(34, $this->pagination->add(3)->current());
+        static::assertSame(34, $this->pagination->add(3)->current());
     }
 
     /**
@@ -104,6 +104,6 @@ class PaginationTest extends TestCase
      */
     public function it_subtracts_pages(): void
     {
-        static::assertEquals(18, $this->pagination->sub(13)->current());
+        static::assertSame(18, $this->pagination->sub(13)->current());
     }
 }

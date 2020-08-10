@@ -26,13 +26,13 @@ class TrackTest extends AbstractDataTest
     public function it_has_a_remix(): void
     {
         $object = $this->getDataObject(['remix' => 'remix']);
-        static::assertEquals('remix', $object->getRemix());
+        static::assertSame('remix', $object->getRemix());
 
         $object = $this->getDataObject();
         static::assertNull($object->getRemix());
 
         $object->setRemix('remix');
-        static::assertEquals('remix', $object->getRemix());
+        static::assertSame('remix', $object->getRemix());
     }
 
     /**
@@ -41,20 +41,20 @@ class TrackTest extends AbstractDataTest
     public function it_has_a_length(): void
     {
         $object = $this->getDataObject(['length' => '2:30']);
-        static::assertEquals(150, $object->getLength());
+        static::assertSame(150, $object->getLength());
 
         $object = $this->getDataObject();
         static::assertNull($object->getLength());
 
         $object->setLength('2:30');
-        static::assertEquals(150, $object->getLength());
+        static::assertSame(150, $object->getLength());
 
         $object = $this->getDataObject(['length' => 150]);
-        static::assertEquals(150, $object->getLength());
+        static::assertSame(150, $object->getLength());
 
         $object = $this->getDataObject();
         $object->setLength(150);
-        static::assertEquals(150, $object->getLength());
+        static::assertSame(150, $object->getLength());
     }
 
     /**
@@ -63,13 +63,13 @@ class TrackTest extends AbstractDataTest
     public function it_has_a_bpm(): void
     {
         $object = $this->getDataObject(['bpm' => 140]);
-        static::assertEquals(140, $object->getBpm());
+        static::assertSame(140, $object->getBpm());
 
         $object = $this->getDataObject();
         static::assertNull($object->getBpm());
 
         $object->setBpm(140);
-        static::assertEquals(140, $object->getBpm());
+        static::assertSame(140, $object->getBpm());
     }
 
     /**
@@ -78,13 +78,13 @@ class TrackTest extends AbstractDataTest
     public function it_has_a_key(): void
     {
         $object = $this->getDataObject(['key' => 'key']);
-        static::assertEquals('key', $object->getKey());
+        static::assertSame('key', $object->getKey());
 
         $object = $this->getDataObject();
         static::assertNull($object->getKey());
 
         $object->setKey('key');
-        static::assertEquals('key', $object->getKey());
+        static::assertSame('key', $object->getKey());
     }
 
     /**

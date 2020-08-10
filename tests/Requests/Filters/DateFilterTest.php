@@ -25,7 +25,7 @@ class DateFilterTest extends TestCase
     {
         $filter = new DateFilter();
 
-        static::assertEquals('date', $filter->name());
+        static::assertSame('date', $filter->name());
     }
 
     /**

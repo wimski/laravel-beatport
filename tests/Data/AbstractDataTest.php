@@ -22,13 +22,13 @@ abstract class AbstractDataTest extends TestCase
     public function it_has_a_title(): void
     {
         $object = $this->getDataObject(['title' => 'title']);
-        static::assertEquals('title', $object->getTitle());
+        static::assertSame('title', $object->getTitle());
 
         $object = $this->getDataObject();
         static::assertNull($object->getTitle());
 
         $object->setTitle('title');
-        static::assertEquals('title', $object->getTitle());
+        static::assertSame('title', $object->getTitle());
     }
 
     /**
@@ -37,13 +37,13 @@ abstract class AbstractDataTest extends TestCase
     public function it_has_a_slug(): void
     {
         $object = $this->getDataObject(['slug' => 'slug']);
-        static::assertEquals('slug', $object->getSlug());
+        static::assertSame('slug', $object->getSlug());
 
         $object = $this->getDataObject();
         static::assertNull($object->getSlug());
 
         $object->setSlug('slug');
-        static::assertEquals('slug', $object->getSlug());
+        static::assertSame('slug', $object->getSlug());
     }
 
     /**
@@ -52,12 +52,12 @@ abstract class AbstractDataTest extends TestCase
     public function it_has_an_id(): void
     {
         $object = $this->getDataObject(['id' => 1]);
-        static::assertEquals(1, $object->getId());
+        static::assertSame(1, $object->getId());
 
         $object = $this->getDataObject();
         static::assertNull($object->getId());
 
         $object->setId(1);
-        static::assertEquals(1, $object->getId());
+        static::assertSame(1, $object->getId());
     }
 }
