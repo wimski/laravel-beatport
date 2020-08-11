@@ -27,7 +27,7 @@ class ResourceUrlProcessor
         return [
             'type' => new ResourceTypeEnum($matches[1]),
             'slug' => $matches[2],
-            'id'   => $matches[3],
+            'id'   => (int) $matches[3],
         ];
     }
 
