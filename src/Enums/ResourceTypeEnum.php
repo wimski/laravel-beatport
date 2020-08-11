@@ -10,6 +10,7 @@ use MyCLabs\Enum\Enum;
  * @method static ResourceTypeEnum GENRE()
  * @method static ResourceTypeEnum LABEL()
  * @method static ResourceTypeEnum RELEASE()
+ * @method static ResourceTypeEnum SUB_GENRE()
  * @method static ResourceTypeEnum TRACK()
  */
 class ResourceTypeEnum extends Enum
@@ -18,6 +19,7 @@ class ResourceTypeEnum extends Enum
     public const GENRE     = 'genre';
     public const LABEL     = 'label';
     public const RELEASE   = 'release';
+    public const SUB_GENRE = 'sub-genre';
     public const TRACK     = 'track';
 
     public function getValuePlural(): string

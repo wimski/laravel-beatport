@@ -13,4 +13,9 @@ abstract class TestCase extends OrchestraTestCase
             BeatportServiceProvider::class,
         ];
     }
+
+    protected function loadHtmlStub(string $fileName): string
+    {
+        return file_get_contents(__DIR__ . '/stubs/html/' . $fileName . '.html');
+    }
 }

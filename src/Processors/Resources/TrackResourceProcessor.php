@@ -10,6 +10,7 @@ use Wimski\Beatport\Data\Label;
 use Wimski\Beatport\Data\Release;
 use Wimski\Beatport\Data\SubGenre;
 use Wimski\Beatport\Data\Track;
+use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Processors\Crawler;
 
 class TrackResourceProcessor extends AbstractResourceProcessor
@@ -34,7 +35,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
             ));
 
         $remixed = $html->get('.interior-title .remixed');
-        if (! $remixed) {
+        if ($remixed->count()) {
             $track->setRemix($remixed->text());
         }
 
@@ -115,15 +116,18 @@ class TrackResourceProcessor extends AbstractResourceProcessor
 
         $track = new Track($props);
 
-        $track
-            ->setKey($row->getText('.buk-track-key'))
-            ->setGenre(new Genre(
-                $this->processAnchor($row->get('.buk-track-genre a')),
-            ));
+        $track->setKey($row->getText('.buk-track-key'));
 
         $remix = $anchor->get('.buk-track-remixed');
         if ($remix) {
             $track->setRemix($remix->text());
+        }
+
+        $genreProps = $this->processAnchor($row->get('.buk-track-genre a'));
+        if (ResourceTypeEnum::SUB_GENRE()->equals($genreProps['type'])) {
+            $track->setSubGenre(new SubGenre($genreProps));
+        } else {
+            $track->setGenre(new Genre($genreProps));
         }
 
         $releaseAnchor = $row->get('.buk-track-artwork-parent');

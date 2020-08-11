@@ -21,11 +21,12 @@ class ResourceTypeEnumTest extends TestCase
     public function resourceTypes(): array
     {
         return [
-            ['artist',  'artists'],
-            ['genre',   'genres'],
-            ['label',   'labels'],
-            ['release', 'releases'],
-            ['track',   'tracks'],
+            ['artist',    'artists'],
+            ['genre',     'genres'],
+            ['label',     'labels'],
+            ['release',   'releases'],
+            ['sub-genre', 'sub-genres'],
+            ['track',     'tracks'],
         ];
     }
 }
