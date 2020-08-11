@@ -3,6 +3,7 @@
 namespace Wimski\Beatport\Requests;
 
 use GuzzleHttp\ClientInterface;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
@@ -13,8 +14,6 @@ use Wimski\Beatport\Processors\PaginationProcessor;
 
 class Request implements RequestInterface
 {
-    public const URL = 'https://www.beatport.com';
-
     /**
      * @var ClientInterface
      */
@@ -26,9 +25,14 @@ class Request implements RequestInterface
     protected $resourceProcessorFactory;
 
     /**
-     * @var RequestConfig
+     * @var Repository
      */
     protected $config;
+
+    /**
+     * @var RequestConfig
+     */
+    protected $requestConfig;
 
     /**
      * @var ResourceProcessorInterface
@@ -49,17 +53,19 @@ class Request implements RequestInterface
         ClientInterface $guzzle,
         ResourceProcessorFactoryInterface $resourceProcessorFactory,
         PaginationProcessor $paginationProcessor,
-        RequestConfig $config
+        Repository $config,
+        RequestConfig $requestConfig
     ) {
         $this->guzzle                   = $guzzle;
         $this->resourceProcessorFactory = $resourceProcessorFactory;
         $this->config                   = $config;
+        $this->requestConfig            = $requestConfig;
 
-        $this->resourceProcessor = $this->resourceProcessorFactory->make($config->resourceType());
+        $this->resourceProcessor = $this->resourceProcessorFactory->make($requestConfig->resourceType());
 
         $response = $this->request();
 
-        if ($this->config->canHavePagination()) {
+        if ($this->requestConfig->canHavePagination()) {
             $this->pagination = $paginationProcessor->process($response);
         }
     }
@@ -84,9 +90,9 @@ class Request implements RequestInterface
 
     protected function request(): string
     {
-        $url = static::URL . $this->config->path();
+        $url = $this->config->get('beatport.url') . $this->requestConfig->path();
 
-        $params = $this->config->queryParams();
+        $params = $this->requestConfig->queryParams();
 
         if ($this->pagination && $this->pagination->current() > 1) {
             $params['page'] = $this->pagination->current();
@@ -99,7 +105,7 @@ class Request implements RequestInterface
             'query' => $params,
         ])->getBody();
 
-        $this->data = $this->resourceProcessor->process($this->config->requestType(), $response);
+        $this->data = $this->resourceProcessor->process($this->requestConfig->requestType(), $response);
 
         return $response;
     }

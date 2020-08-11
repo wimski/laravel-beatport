@@ -2,12 +2,22 @@
 
 namespace Wimski\Beatport\Processors;
 
+use Illuminate\Contracts\Config\Repository;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidResourceUrlException;
-use Wimski\Beatport\Requests\Request;
 
 class ResourceUrlProcessor
 {
+    /**
+     * @var Repository
+     */
+    protected $config;
+
+    public function __construct(Repository $config)
+    {
+        $this->config = $config;
+    }
+
     public function processResourceAttributes(string $url): array
     {
         if (! preg_match("/^{$this->getRegex()}/", $url, $matches)) {
@@ -23,7 +33,7 @@ class ResourceUrlProcessor
 
     protected function getRegex(): string
     {
-        $url = Request::URL;
+        $url = $this->config->get('beatport.url');
 
         $regex =  '(?:' . preg_quote($url, '/') . ')?\/?';
         $regex .= '(' . implode('|', ResourceTypeEnum::values()) . ')\/?';

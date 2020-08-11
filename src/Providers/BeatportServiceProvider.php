@@ -16,7 +16,19 @@ class BeatportServiceProvider extends ServiceProvider
     {
         parent::register();
 
-        $this->registerInterfaceBindings();
+        $this
+            ->registerConfig()
+            ->registerInterfaceBindings();
+    }
+
+    protected function registerConfig(): self
+    {
+        $this->mergeConfigFrom(
+            realpath(dirname(__DIR__) . '/../config/beatport.php'),
+            'beatport',
+        );
+
+        return $this;
     }
 
     protected function registerInterfaceBindings(): self

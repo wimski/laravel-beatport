@@ -3,6 +3,7 @@
 namespace Wimski\Beatport\Tests\Requests;
 
 use GuzzleHttp\ClientInterface;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Mockery;
 use Psr\Http\Message\ResponseInterface;
@@ -87,7 +88,7 @@ class RequestTest extends TestCase
             ->andReturn($pagination)
             ->getMock();
 
-        $request = new Request($guzzle, $factory, $paginationProcessor, $config);
+        $request = new Request($guzzle, $factory, $paginationProcessor, $this->app->make(Repository::class), $config);
 
         static::assertInstanceOf(Collection::class, $request->data());
 
