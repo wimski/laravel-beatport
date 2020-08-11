@@ -8,7 +8,7 @@ use Wimski\Beatport\Data\Artist;
 use Wimski\Beatport\Data\Label;
 use Wimski\Beatport\Data\Release;
 use Wimski\Beatport\Processors\Crawler;
-use Wimski\Beatport\Processors\UrlProcessor;
+use Wimski\Beatport\Processors\ResourceUrlProcessor;
 
 class ReleaseResourceProcessor extends AbstractResourceProcessor
 {
@@ -17,7 +17,7 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
      */
     protected $trackResourceProcessor;
 
-    public function __construct(UrlProcessor $urlProcessor, TrackResourceProcessor $trackResourceProcessor)
+    public function __construct(ResourceUrlProcessor $urlProcessor, TrackResourceProcessor $trackResourceProcessor)
     {
         parent::__construct($urlProcessor);
 
@@ -28,7 +28,7 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
     {
         $url = $html->filter('head meta')->getAttr('[name="og:url"]', 'content');
 
-        $release = new Release($this->urlProcessor->process($url));
+        $release = new Release($this->urlProcessor->processResourceAttributes($url));
 
         $left  = $html->get('.interior-release-chart-artwork-parent');
         $right = $html->get('.interior-release-chart-content');
@@ -101,7 +101,7 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
 
         $releases = $items->each(function (Crawler $item) {
             $anchor = $item->get('.buk-horz-release-title a');
-            $props  = $this->urlProcessor->process($anchor->attr('href'));
+            $props  = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
             $props['title'] = $anchor->text();
 
             $release = new Release($props);
@@ -111,12 +111,12 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
                 ->setReleased($item->getText('.buk-horz-release-released'));
 
             $labelAnchor = $item->get('.buk-horz-release-labels a');
-            $labelProps  = $this->urlProcessor->process($labelAnchor->attr('href'));
+            $labelProps  = $this->urlProcessor->processResourceAttributes($labelAnchor->attr('href'));
             $labelProps['title'] = $labelAnchor->text();
             $release->setLabel(new Label($labelProps));
 
             $artists = $item->filter('.buk-horz-release-artists a')->each(function (Crawler $anchor) {
-                $props = $this->urlProcessor->process($anchor->attr('href'));
+                $props = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
                 $props['title'] = $anchor->text();
 
                 return new Artist($props);

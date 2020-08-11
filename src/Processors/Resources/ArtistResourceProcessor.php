@@ -37,7 +37,7 @@ class ArtistResourceProcessor extends AbstractResourceProcessor
 
         $artists = $items->each(function (Crawler $item) {
             $anchor = $item->get('a');
-            $props  = $this->urlProcessor->process($anchor->attr('href'));
+            $props  = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
             $props['title'] = $anchor->getText('.artist-name');
 
             $artist = new Artist($props);

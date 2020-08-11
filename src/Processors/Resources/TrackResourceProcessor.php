@@ -18,7 +18,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
     {
         $url = $html->filter('head meta')->getAttr('[name="og:url"]', 'content');
 
-        $track = new Track($this->urlProcessor->process($url));
+        $track = new Track($this->urlProcessor->processResourceAttributes($url));
 
         $track
             ->setTitle($html->getText('.interior-title h1'))
@@ -47,7 +47,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
 
         $release                 = $html->get('.interior-track-releases-artwork-container');
         $releaseAnchor           = $release->get('a');
-        $releaseProps            = $this->urlProcessor->process($releaseAnchor->attr('href'));
+        $releaseProps            = $this->urlProcessor->processResourceAttributes($releaseAnchor->attr('href'));
         $releaseProps['artwork'] = $releaseAnchor->getAttr('img', 'src');
         $releaseProps['title']   = $release->attr('data-ec-name');
         $track->setRelease(new Release($releaseProps));
@@ -110,7 +110,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
     public function processRow(Crawler $row): Track
     {
         $anchor = $row->get('.buk-track-title a');
-        $props  = $this->urlProcessor->process($anchor->attr('href'));
+        $props  = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
         $props['title'] = $anchor->getText('.buk-track-primary-title');
 
         $track = new Track($props);
@@ -127,7 +127,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
         }
 
         $releaseAnchor = $row->get('.buk-track-artwork-parent');
-        $releaseProps  = $this->urlProcessor->process($releaseAnchor->getAttr('a', 'href'));
+        $releaseProps  = $this->urlProcessor->processResourceAttributes($releaseAnchor->getAttr('a', 'href'));
         $track->setRelease(new Release($releaseProps));
         $track->getRelease()->setArtwork($releaseAnchor->getAttr('img', 'src'));
 

@@ -12,7 +12,7 @@ class LabelResourceProcessor extends AbstractResourceProcessor
     protected function processView(Crawler $html): ?DataInterface
     {
         $anchor = $html->get('.interior-title a');
-        $props  = $this->urlProcessor->process($anchor->attr('href'));
+        $props  = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
         $props['title'] = $anchor->getText('h1');
 
         $label = new Label($props);
@@ -31,7 +31,7 @@ class LabelResourceProcessor extends AbstractResourceProcessor
 
         $labels = $items->each(function (Crawler $item) {
             $anchor = $item->get('a');
-            $props  = $this->urlProcessor->process($anchor->attr('href'));
+            $props  = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
             $props['title'] = $anchor->getText('.label-name');
 
             $label = new Label($props);

@@ -7,16 +7,16 @@ use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Processors\Crawler;
-use Wimski\Beatport\Processors\UrlProcessor;
+use Wimski\Beatport\Processors\ResourceUrlProcessor;
 
 abstract class AbstractResourceProcessor implements ResourceProcessorInterface
 {
     /**
-     * @var UrlProcessor
+     * @var ResourceUrlProcessor
      */
     protected $urlProcessor;
 
-    public function __construct(UrlProcessor $urlProcessor)
+    public function __construct(ResourceUrlProcessor $urlProcessor)
     {
         $this->urlProcessor = $urlProcessor;
     }
@@ -43,7 +43,7 @@ abstract class AbstractResourceProcessor implements ResourceProcessorInterface
 
     protected function processAnchor(Crawler $anchor): array
     {
-        $props = $this->urlProcessor->process($anchor->attr('href'));
+        $props = $this->urlProcessor->processResourceAttributes($anchor->attr('href'));
         $props['title'] = $anchor->text();
 
         return $props;

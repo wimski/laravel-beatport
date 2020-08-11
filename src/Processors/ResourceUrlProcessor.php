@@ -3,13 +3,16 @@
 namespace Wimski\Beatport\Processors;
 
 use Wimski\Beatport\Enums\ResourceTypeEnum;
+use Wimski\Beatport\Exceptions\InvalidResourceUrlException;
 use Wimski\Beatport\Requests\Request;
 
-class UrlProcessor
+class ResourceUrlProcessor
 {
-    public function process(string $url): array
+    public function processResourceAttributes(string $url): array
     {
-        preg_match("/^{$this->getRegex()}/", $url, $matches);
+        if (! preg_match("/^{$this->getRegex()}/", $url, $matches)) {
+            throw new InvalidResourceUrlException("{$url} is not a valid resource URL");
+        }
 
         return [
             'type' => new ResourceTypeEnum($matches[1]),
