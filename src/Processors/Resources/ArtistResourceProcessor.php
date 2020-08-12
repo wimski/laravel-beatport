@@ -11,7 +11,12 @@ class ArtistResourceProcessor extends AbstractResourceProcessor
 {
     protected function processView(Crawler $html): ?DataInterface
     {
-        $artist = new Artist($this->processAnchor($html->get('.interior-title a')));
+        $anchor = $html->get('.interior-title a');
+
+        $props = $this->processAnchor($anchor);
+        $props['title'] = $anchor->getText('h1');
+
+        $artist = new Artist($props);
         $artist->setArtwork($html->getAttr('.interior-artist-artwork', 'src'));
 
         return $artist;
