@@ -70,6 +70,8 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
             $track = $this->trackResourceProcessor->processRow($item);
 
             $track
+                ->setBpm($item->getText('.buk-track-bpm'))
+                ->setLength($item->getText('.buk-track-length'))
                 ->setReleased($release->getReleased())
                 ->setRelease($release)
                 ->setLabel($release->getLabel());
