@@ -7,7 +7,7 @@ use Wimski\Beatport\Contracts\DataInterface;
 use Wimski\Beatport\Contracts\ResourceInterface;
 use Wimski\Beatport\Tests\TestCase;
 
-abstract class AbstractResourceTest extends TestCase
+abstract class AbstractSharedResourceTest extends TestCase
 {
     /**
      * @var ResourceInterface

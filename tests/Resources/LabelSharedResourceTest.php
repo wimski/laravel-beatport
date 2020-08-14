@@ -6,15 +6,15 @@ use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Requests\Filters\ResourceFilter;
-use Wimski\Beatport\Resources\ArtistResource;
+use Wimski\Beatport\Resources\LabelResource;
 use Wimski\Beatport\Resources\ReleaseResource;
 use Wimski\Beatport\Resources\TrackResource;
 
-class ArtistResourceTest extends AbstractResourceTest
+class LabelSharedResourceTest extends AbstractSharedResourceTest
 {
     protected function resourceClass(): string
     {
-        return ArtistResource::class;
+        return LabelResource::class;
     }
 
     /**
@@ -22,7 +22,7 @@ class ArtistResourceTest extends AbstractResourceTest
      */
     public function it_has_a_type(): void
     {
-        static::assertTrue($this->resource->type()->equals(ResourceTypeEnum::ARTIST()));
+        static::assertTrue($this->resource->type()->equals(ResourceTypeEnum::LABEL()));
     }
 
     /**
@@ -77,12 +77,12 @@ class ArtistResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::relationship('', 1, ReleaseResource::class),
+            LabelResource::relationship('', 1, ReleaseResource::class),
         );
 
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::relationshipByData($this->getDataMock(), ReleaseResource::class),
+            LabelResource::relationshipByData($this->getDataMock(), ReleaseResource::class),
         );
     }
 
@@ -94,12 +94,12 @@ class ArtistResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::relationship('', 1, TrackResource::class),
+            LabelResource::relationship('', 1, TrackResource::class),
         );
 
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::relationshipByData($this->getDataMock(), TrackResource::class),
+            LabelResource::relationshipByData($this->getDataMock(), TrackResource::class),
         );
     }
 
@@ -110,7 +110,7 @@ class ArtistResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::search(''),
+            LabelResource::search(''),
         );
     }
 
@@ -121,12 +121,12 @@ class ArtistResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::find('', 1),
+            LabelResource::find('', 1),
         );
 
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            ArtistResource::findByData($this->getDataMock()),
+            LabelResource::findByData($this->getDataMock()),
         );
     }
 }

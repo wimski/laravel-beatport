@@ -12,7 +12,7 @@ use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Requests\Filters\TypeFilter;
 use Wimski\Beatport\Resources\ReleaseResource;
 
-class ReleaseResourceTest extends AbstractResourceTest
+class ReleaseSharedResourceTest extends AbstractSharedResourceTest
 {
     protected function resourceClass(): string
     {

@@ -13,7 +13,7 @@ use Wimski\Beatport\Requests\Filters\ResourceFilter;
 use Wimski\Beatport\Requests\Filters\TypeFilter;
 use Wimski\Beatport\Resources\TrackResource;
 
-class TrackResourceTest extends AbstractResourceTest
+class TrackSharedResourceTest extends AbstractSharedResourceTest
 {
     protected function resourceClass(): string
     {

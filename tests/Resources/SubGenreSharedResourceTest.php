@@ -6,7 +6,7 @@ use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Resources\SubGenreResource;
 
-class SubGenreResourceTest extends AbstractResourceTest
+class SubGenreSharedResourceTest extends AbstractSharedResourceTest
 {
     protected function resourceClass(): string
     {

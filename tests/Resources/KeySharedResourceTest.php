@@ -6,7 +6,7 @@ use Wimski\Beatport\Contracts\RequestBuilderInterface;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Resources\KeyResource;
 
-class KeyResourceTest extends AbstractResourceTest
+class KeySharedResourceTest extends AbstractSharedResourceTest
 {
     protected function resourceClass(): string
     {

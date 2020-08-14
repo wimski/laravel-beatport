@@ -3,16 +3,18 @@
 namespace Wimski\Beatport\Tests\Resources;
 
 use Wimski\Beatport\Contracts\RequestBuilderInterface;
+use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
-use Wimski\Beatport\Resources\GenreResource;
+use Wimski\Beatport\Requests\Filters\ResourceFilter;
+use Wimski\Beatport\Resources\ArtistResource;
 use Wimski\Beatport\Resources\ReleaseResource;
 use Wimski\Beatport\Resources\TrackResource;
 
-class GenreResourceTest extends AbstractResourceTest
+class ArtistSharedResourceTest extends AbstractSharedResourceTest
 {
     protected function resourceClass(): string
     {
-        return GenreResource::class;
+        return ArtistResource::class;
     }
 
     /**
@@ -20,7 +22,35 @@ class GenreResourceTest extends AbstractResourceTest
      */
     public function it_has_a_type(): void
     {
-        static::assertTrue($this->resource->type()->equals(ResourceTypeEnum::GENRE()));
+        static::assertTrue($this->resource->type()->equals(ResourceTypeEnum::ARTIST()));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_search_filter_genre(): void
+    {
+        $filter = $this->resource->getFilter(RequestTypeEnum::QUERY(), 'genre');
+
+        static::assertNotNull($filter);
+        static::assertInstanceOf(ResourceFilter::class, $filter);
+
+        /** @var ResourceFilter $filter */
+        static::assertTrue($filter->supportsMultipleValues());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_search_filter_subgenre(): void
+    {
+        $filter = $this->resource->getFilter(RequestTypeEnum::QUERY(), 'subgenre');
+
+        static::assertNotNull($filter);
+        static::assertInstanceOf(ResourceFilter::class, $filter);
+
+        /** @var ResourceFilter $filter */
+        static::assertTrue($filter->supportsMultipleValues());
     }
 
     /**
@@ -47,12 +77,12 @@ class GenreResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::relationship('', 1, ReleaseResource::class),
+            ArtistResource::relationship('', 1, ReleaseResource::class),
         );
 
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::relationshipByData($this->getDataMock(), ReleaseResource::class),
+            ArtistResource::relationshipByData($this->getDataMock(), ReleaseResource::class),
         );
     }
 
@@ -64,23 +94,23 @@ class GenreResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::relationship('', 1, TrackResource::class),
+            ArtistResource::relationship('', 1, TrackResource::class),
         );
 
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::relationshipByData($this->getDataMock(), TrackResource::class),
+            ArtistResource::relationshipByData($this->getDataMock(), TrackResource::class),
         );
     }
 
     /**
      * @test
      */
-    public function it_can_index(): void
+    public function it_can_search(): void
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::all(),
+            ArtistResource::search(''),
         );
     }
 
@@ -91,12 +121,12 @@ class GenreResourceTest extends AbstractResourceTest
     {
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::find('', 1),
+            ArtistResource::find('', 1),
         );
 
         static::assertInstanceOf(
             RequestBuilderInterface::class,
-            GenreResource::findByData($this->getDataMock()),
+            ArtistResource::findByData($this->getDataMock()),
         );
     }
 }
