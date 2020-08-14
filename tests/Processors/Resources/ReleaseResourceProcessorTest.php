@@ -266,4 +266,25 @@ class ReleaseResourceProcessorTest extends TestCase
         static::assertSame('ben-nicky', $artist2_3->getSlug());
         static::assertSame('Ben Nicky', $artist2_3->getTitle());
     }
+
+    /**
+     * @test
+     */
+    public function it_does_not_process_missing_data(): void
+    {
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::INDEX(),
+            $this->loadHtmlStub('empty'),
+        ));
+
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::RELATIONSHIP(),
+            $this->loadHtmlStub('empty'),
+        ));
+
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::QUERY(),
+            $this->loadHtmlStub('empty'),
+        ));
+    }
 }

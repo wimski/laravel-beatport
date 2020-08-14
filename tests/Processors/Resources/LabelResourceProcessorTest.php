@@ -73,4 +73,15 @@ class LabelResourceProcessorTest extends TestCase
             $label2->getArtwork(),
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_does_not_process_missing_data(): void
+    {
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::QUERY(),
+            $this->loadHtmlStub('empty'),
+        ));
+    }
 }

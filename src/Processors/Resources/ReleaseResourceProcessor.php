@@ -97,7 +97,7 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
     {
         $items = $html->filter('.bucket-items .bucket-item');
 
-        if (! $items) {
+        if (! $items->count()) {
             return null;
         }
 
@@ -135,7 +135,7 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
     {
         $items = $html->filter('.bucket-items .bucket-item');
 
-        if (! $items) {
+        if (! $items->count()) {
             return null;
         }
 

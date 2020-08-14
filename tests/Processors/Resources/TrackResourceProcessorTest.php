@@ -222,4 +222,25 @@ class TrackResourceProcessorTest extends TestCase
         static::assertSame('sunset-bros', $remixer->getSlug());
         static::assertSame('Sunset Bros', $remixer->getTitle());
     }
+
+    /**
+     * @test
+     */
+    public function it_does_not_process_missing_data(): void
+    {
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::INDEX(),
+            $this->loadHtmlStub('empty'),
+        ));
+
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::RELATIONSHIP(),
+            $this->loadHtmlStub('empty'),
+        ));
+
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::QUERY(),
+            $this->loadHtmlStub('empty'),
+        ));
+    }
 }

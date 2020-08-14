@@ -86,4 +86,20 @@ class ArtistResourceProcessorTest extends TestCase
             $artist2->getArtwork(),
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_does_not_process_missing_data(): void
+    {
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::INDEX(),
+            $this->loadHtmlStub('empty'),
+        ));
+
+        static::assertNull($this->processor->process(
+            RequestTypeEnum::QUERY(),
+            $this->loadHtmlStub('empty'),
+        ));
+    }
 }
