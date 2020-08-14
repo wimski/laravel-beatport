@@ -50,7 +50,7 @@ class RelationshipRequestBuilder extends AbstractRequestBuilder
 
     public function path(): string
     {
-        return implode('/', [
+        return parent::path() ?? implode('/', [
             '',
             $this->parent->type()->getValue(),
             $this->slug,

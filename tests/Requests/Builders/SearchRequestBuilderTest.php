@@ -89,6 +89,17 @@ class SearchRequestBuilderTest extends TestCase
 
     /**
      * @test
+     */
+    public function it_returns_a_custom_path(): void
+    {
+        $builder = new SearchRequestBuilder(Mockery::mock(Container::class), Mockery::mock(ResourceInterface::class));
+        $builder->customPath('foobar');
+
+        static::assertSame('foobar', $builder->path());
+    }
+
+    /**
+     * @test
      * @depends it_returns_query_params
      */
     public function it_has_a_query(): void

@@ -37,7 +37,9 @@ interface RequestBuilderInterface
      */
     public function pageSize($pageSize): RequestBuilderInterface;
 
-    public function path(): string;
+    public function customPath(string $path): RequestBuilderInterface;
+
+    public function path(): ?string;
 
     public function queryParams(): array;
 

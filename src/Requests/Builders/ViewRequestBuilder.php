@@ -37,7 +37,7 @@ class ViewRequestBuilder extends AbstractRequestBuilder
 
     public function path(): string
     {
-        return implode('/', [
+        return parent::path() ?? implode('/', [
             '',
             $this->resource->type()->getValue(),
             $this->slug,

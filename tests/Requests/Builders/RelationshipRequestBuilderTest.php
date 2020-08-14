@@ -107,6 +107,20 @@ class RelationshipRequestBuilderTest extends TestCase
 
     /**
      * @test
+     */
+    public function it_returns_a_custom_path(): void
+    {
+        $builder = new RelationshipRequestBuilder(
+            Mockery::mock(Container::class),
+            Mockery::mock(ResourceInterface::class),
+        );
+        $builder->customPath('foobar');
+
+        static::assertSame('foobar', $builder->path());
+    }
+
+    /**
+     * @test
      * @depends it_returns_query_params
      */
     public function it_adds_a_filter(): void

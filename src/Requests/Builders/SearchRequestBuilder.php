@@ -25,7 +25,7 @@ class SearchRequestBuilder extends AbstractRequestBuilder
 
     public function path(): string
     {
-        return '/search/' . $this->resource->type()->getValuePlural();
+        return parent::path() ?? '/search/' . $this->resource->type()->getValuePlural();
     }
 
     public function queryParams(): array

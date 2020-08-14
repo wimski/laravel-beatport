@@ -42,6 +42,11 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
      */
     protected $pageSize;
 
+    /**
+     * @var string
+     */
+    protected $customPath;
+
     public function __construct(Container $app, ResourceInterface $resource)
     {
         $this->app      = $app;
@@ -106,6 +111,18 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         }
 
         return $this;
+    }
+
+    public function customPath(string $path): RequestBuilderInterface
+    {
+        $this->customPath = $path;
+
+        return $this;
+    }
+
+    public function path(): ?string
+    {
+        return $this->customPath;
     }
 
     public function queryParams(): array

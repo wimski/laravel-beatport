@@ -13,6 +13,6 @@ class IndexRequestBuilder extends AbstractRequestBuilder
 
     public function path(): string
     {
-        return '/' . $this->resource->type()->getValuePlural() . '/all';
+        return parent::path() ?? '/' . $this->resource->type()->getValuePlural() . '/all';
     }
 }
