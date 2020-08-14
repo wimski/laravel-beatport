@@ -11,6 +11,7 @@ use Wimski\Beatport\Processors\Resources\ArtistResourceProcessor;
 use Wimski\Beatport\Processors\Resources\GenreResourceProcessor;
 use Wimski\Beatport\Processors\Resources\LabelResourceProcessor;
 use Wimski\Beatport\Processors\Resources\ReleaseResourceProcessor;
+use Wimski\Beatport\Processors\Resources\SubGenreResourceProcessor;
 use Wimski\Beatport\Processors\Resources\TrackResourceProcessor;
 use Wimski\Beatport\Tests\TestCase;
 
@@ -58,6 +59,17 @@ class ResourceProcessorFactoryTest extends TestCase
 
         $factory = new ResourceProcessorFactory($app);
         $factory->make(ResourceTypeEnum::RELEASE());
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_a_sub_genre_resource_processor(): void
+    {
+        $app = $this->getApp(SubGenreResourceProcessor::class);
+
+        $factory = new ResourceProcessorFactory($app);
+        $factory->make(ResourceTypeEnum::SUB_GENRE());
     }
 
     /**

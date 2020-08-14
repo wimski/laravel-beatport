@@ -12,6 +12,7 @@ use Wimski\Beatport\Processors\Resources\ArtistResourceProcessor;
 use Wimski\Beatport\Processors\Resources\GenreResourceProcessor;
 use Wimski\Beatport\Processors\Resources\LabelResourceProcessor;
 use Wimski\Beatport\Processors\Resources\ReleaseResourceProcessor;
+use Wimski\Beatport\Processors\Resources\SubGenreResourceProcessor;
 use Wimski\Beatport\Processors\Resources\TrackResourceProcessor;
 
 class ResourceProcessorFactory implements ResourceProcessorFactoryInterface
@@ -42,6 +43,9 @@ class ResourceProcessorFactory implements ResourceProcessorFactoryInterface
 
             case ResourceTypeEnum::RELEASE:
                 return $this->app->make(ReleaseResourceProcessor::class);
+
+            case ResourceTypeEnum::SUB_GENRE:
+                return $this->app->make(SubGenreResourceProcessor::class);
 
             case ResourceTypeEnum::TRACK:
                 return $this->app->make(TrackResourceProcessor::class);
