@@ -47,6 +47,10 @@ class TrackResourceProcessorTest extends TestCase
         static::assertTrue(Carbon::create(2020, 7, 31)->equalTo($data->getReleased()));
         static::assertSame(145, $data->getBpm());
         static::assertSame('B min', $data->getKey());
+        static::assertSame(
+            'https://geo-media.beatport.com/image/6e2bd691-2ab6-433b-8f2a-81744b12836d.png',
+            $data->getWaveform(),
+        );
 
         $genre = $data->getGenre();
         static::assertInstanceOf(Genre::class, $genre);

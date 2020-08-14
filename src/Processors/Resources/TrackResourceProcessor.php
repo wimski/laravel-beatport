@@ -27,6 +27,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
             ->setReleased($html->getText('.interior-track-released .value'))
             ->setBpm($html->getText('.interior-track-bpm .value'))
             ->setKey($html->getText('.interior-track-key .value'))
+            ->setWaveform($html->getAttr('.interior-track-waveform', 'data-src'))
             ->setLabel(new Label(
                 $this->processAnchor($html->get('.interior-track-labels .value a')),
             ))

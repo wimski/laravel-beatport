@@ -36,6 +36,11 @@ class Track extends AbstractData
     protected $key;
 
     /**
+     * @var string
+     */
+    protected $waveform;
+
+    /**
      * @var Genre
      */
     protected $genre;
@@ -103,6 +108,18 @@ class Track extends AbstractData
     public function setKey(string $key): self
     {
         $this->key = $key;
+
+        return $this;
+    }
+
+    public function getWaveform(): ?string
+    {
+        return $this->waveform;
+    }
+
+    public function setWaveform(string $waveform): self
+    {
+        $this->waveform = $waveform;
 
         return $this;
     }
