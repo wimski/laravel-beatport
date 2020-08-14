@@ -72,4 +72,31 @@ class GenreResourceTest extends AbstractResourceTest
             GenreResource::relationshipByData($this->getDataMock(), TrackResource::class),
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_index(): void
+    {
+        static::assertInstanceOf(
+            RequestBuilderInterface::class,
+            GenreResource::all(),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_view(): void
+    {
+        static::assertInstanceOf(
+            RequestBuilderInterface::class,
+            GenreResource::find('', 1),
+        );
+
+        static::assertInstanceOf(
+            RequestBuilderInterface::class,
+            GenreResource::findByData($this->getDataMock()),
+        );
+    }
 }
