@@ -9,8 +9,8 @@ use Wimski\Beatport\Resources\Traits\CanRelate;
 
 class GenreResource extends AbstractResource
 {
-    use CanRelate;
     use CanIndex;
+    use CanRelate;
 
     public function type(): ResourceTypeEnum
     {
