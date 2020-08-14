@@ -2,6 +2,8 @@
 
 namespace Wimski\Beatport\Providers;
 
+use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +38,7 @@ class BeatportServiceProvider extends ServiceProvider
         $this->app->bind(RequestInterface::class, Request::class);
         $this->app->singleton(ResourceProcessorFactoryInterface::class, ResourceProcessorFactory::class);
         $this->app->singleton(ClientInterface::class, Client::class);
+        $this->app->bind(SlugifyInterface::class, Slugify::class);
 
         return $this;
     }

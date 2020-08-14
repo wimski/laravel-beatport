@@ -4,6 +4,7 @@ namespace Wimski\Beatport\Tests\Data;
 
 use Wimski\Beatport\Data\Genre;
 use Wimski\Beatport\Data\Release;
+use Wimski\Beatport\Data\SubGenre;
 use Wimski\Beatport\Data\Track;
 
 /**
@@ -36,6 +37,28 @@ class GenreTest extends AbstractDataTest
         $object = $this->getDataObject();
         $object->addRelease($release);
         static::assertSame($releases->toArray(), $object->getReleases()->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_sub_genres(): void
+    {
+        $subGenre  = new SubGenre();
+        $subGenres = collect([$subGenre]);
+
+        $object = $this->getDataObject(['subGenres' => $subGenres]);
+        static::assertSame($subGenres->toArray(), $object->getSubGenres()->toArray());
+
+        $object = $this->getDataObject();
+        static::assertTrue($object->getSubGenres()->isEmpty());
+
+        $object->setSubGenres($subGenres);
+        static::assertSame($subGenres->toArray(), $object->getSubGenres()->toArray());
+
+        $object = $this->getDataObject();
+        $object->addSubGenre($subGenre);
+        static::assertSame($subGenres->toArray(), $object->getSubGenres()->toArray());
     }
 
     /**

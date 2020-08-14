@@ -18,7 +18,8 @@
         "khill/php-duration": "^1.0",
         "myclabs/php-enum": "^1.7",
         "symfony/dom-crawler": "^5.1",
-        "guzzlehttp/guzzle": "^6.0"
+        "guzzlehttp/guzzle": "^6.0",
+        "cocur/slugify": "^4.0"
     },
     "require-dev": {
         "orchestra/testbench": "^5.3",
