@@ -2,15 +2,13 @@
 
 namespace Wimski\Beatport\Enums;
 
-use MyCLabs\Enum\Enum;
-
 /**
  * @method static RequestTypeEnum INDEX()
  * @method static RequestTypeEnum RELATIONSHIP()
  * @method static RequestTypeEnum QUERY()
  * @method static RequestTypeEnum VIEW()
  */
-class RequestTypeEnum extends Enum
+class RequestTypeEnum extends AbstractEnum
 {
     public const INDEX        = 'index';
     public const RELATIONSHIP = 'relationship';

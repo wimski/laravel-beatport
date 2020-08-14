@@ -99,9 +99,11 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         return $this;
     }
 
-    public function pageSize(RequestPageSizeEnum $pageSize): RequestBuilderInterface
+    public function pageSize($pageSize): RequestBuilderInterface
     {
-        $this->pageSize = $pageSize;
+        if (RequestPageSizeEnum::isValid($pageSize)) {
+            $this->pageSize = new RequestPageSizeEnum($pageSize);
+        }
 
         return $this;
     }

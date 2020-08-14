@@ -72,16 +72,16 @@ class DateFilter extends AbstractAttributeFilter
     }
 
     /**
-     * @param string $input
+     * @param DateFilterPresetEnum|string $input
      * @return string
      * @throws InvalidFilterInputException
      */
-    protected function processString(string $input): string
+    protected function processString($input): string
     {
         if (! DateFilterPresetEnum::isValid($input)) {
             throw new InvalidFilterInputException('The DateFilter input string must be a valid DateFilterPresetEnum value');
         }
 
-        return $input;
+        return (new DateFilterPresetEnum($input))->getValue();
     }
 }

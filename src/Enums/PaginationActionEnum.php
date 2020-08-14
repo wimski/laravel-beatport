@@ -2,8 +2,6 @@
 
 namespace Wimski\Beatport\Enums;
 
-use MyCLabs\Enum\Enum;
-
 /**
  * @method static PaginationActionEnum PAGE()
  * @method static PaginationActionEnum FIRST()
@@ -13,7 +11,7 @@ use MyCLabs\Enum\Enum;
  * @method static PaginationActionEnum ADD()
  * @method static PaginationActionEnum SUB()
  */
-class PaginationActionEnum extends Enum
+class PaginationActionEnum extends AbstractEnum
 {
     public const PAGE  = 'page';
     public const FIRST = 'first';

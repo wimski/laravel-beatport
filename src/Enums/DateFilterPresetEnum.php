@@ -2,15 +2,13 @@
 
 namespace Wimski\Beatport\Enums;
 
-use MyCLabs\Enum\Enum;
-
 /**
  * @method static DateFilterPresetEnum TODAY()
  * @method static DateFilterPresetEnum YESTERDAY()
  * @method static DateFilterPresetEnum LAST_WEEK()
  * @method static DateFilterPresetEnum LAST_MONTH()
  */
-class DateFilterPresetEnum extends Enum
+class DateFilterPresetEnum extends AbstractEnum
 {
     public const TODAY      = '0d';
     public const YESTERDAY  = '1d';

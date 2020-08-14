@@ -31,7 +31,11 @@ interface RequestBuilderInterface
      */
     public function sort(string $name, string $direction = 'asc'): RequestBuilderInterface;
 
-    public function pageSize(RequestPageSizeEnum $pageSize): RequestBuilderInterface;
+    /**
+     * @param RequestPageSizeEnum|int $pageSize
+     * @return RequestBuilderInterface
+     */
+    public function pageSize($pageSize): RequestBuilderInterface;
 
     public function path(): string;
 

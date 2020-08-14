@@ -75,17 +75,29 @@ class Request implements RequestInterface
         return $this->data;
     }
 
-    public function paginate(PaginationActionEnum $action, int $amount = null): RequestInterface
+    public function paginate($action, int $amount = null): RequestInterface
     {
-        if (! $this->pagination) {
+        if (! $this->pagination || ! PaginationActionEnum::isValid($action)) {
             return $this;
         }
+
+        $action = new PaginationActionEnum($action);
 
         $this->pagination->{$action->getValue()}($amount);
 
         $this->request();
 
         return $this;
+    }
+
+    public function isFirstPage(): bool
+    {
+        return ! $this->pagination || $this->pagination->current() === 1;
+    }
+
+    public function isLastPage(): bool
+    {
+        return ! $this->pagination || $this->pagination->current() === $this->pagination->total();
     }
 
     protected function request(): string

@@ -12,5 +12,14 @@ interface RequestInterface
      */
     public function data();
 
-    public function paginate(PaginationActionEnum $action, int $amount = null): RequestInterface;
+    /**
+     * @param PaginationActionEnum|string $action
+     * @param int|null $amount
+     * @return RequestInterface
+     */
+    public function paginate($action, int $amount = null): RequestInterface;
+
+    public function isFirstPage(): bool;
+
+    public function isLastPage(): bool;
 }

@@ -3,7 +3,6 @@
 namespace Wimski\Beatport\Enums;
 
 use Illuminate\Support\Str;
-use MyCLabs\Enum\Enum;
 
 /**
  * @method static ResourceTypeEnum ARTIST()
@@ -13,7 +12,7 @@ use MyCLabs\Enum\Enum;
  * @method static ResourceTypeEnum SUB_GENRE()
  * @method static ResourceTypeEnum TRACK()
  */
-class ResourceTypeEnum extends Enum
+class ResourceTypeEnum extends AbstractEnum
 {
     public const ARTIST    = 'artist';
     public const GENRE     = 'genre';
