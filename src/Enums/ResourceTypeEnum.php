@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 /**
  * @method static ResourceTypeEnum ARTIST()
  * @method static ResourceTypeEnum GENRE()
+ * @method static ResourceTypeEnum KEY()
  * @method static ResourceTypeEnum LABEL()
  * @method static ResourceTypeEnum RELEASE()
  * @method static ResourceTypeEnum SUB_GENRE()
@@ -16,6 +17,7 @@ class ResourceTypeEnum extends AbstractEnum
 {
     public const ARTIST    = 'artist';
     public const GENRE     = 'genre';
+    public const KEY       = 'key';
     public const LABEL     = 'label';
     public const RELEASE   = 'release';
     public const SUB_GENRE = 'sub-genre';

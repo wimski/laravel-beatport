@@ -5,11 +5,11 @@ namespace Wimski\Beatport\Factories;
 use Illuminate\Contracts\Container\Container;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
-use Wimski\Beatport\Contracts\ResourceInterface;
 use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Exceptions\InvalidResourceException;
 use Wimski\Beatport\Processors\Resources\ArtistResourceProcessor;
 use Wimski\Beatport\Processors\Resources\GenreResourceProcessor;
+use Wimski\Beatport\Processors\Resources\KeyResourceProcessor;
 use Wimski\Beatport\Processors\Resources\LabelResourceProcessor;
 use Wimski\Beatport\Processors\Resources\ReleaseResourceProcessor;
 use Wimski\Beatport\Processors\Resources\SubGenreResourceProcessor;
@@ -37,6 +37,9 @@ class ResourceProcessorFactory implements ResourceProcessorFactoryInterface
 
             case ResourceTypeEnum::GENRE:
                 return $this->app->make(GenreResourceProcessor::class);
+
+            case ResourceTypeEnum::KEY:
+                return $this->app->make(KeyResourceProcessor::class);
 
             case ResourceTypeEnum::LABEL:
                 return $this->app->make(LabelResourceProcessor::class);

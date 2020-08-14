@@ -9,6 +9,7 @@ use Wimski\Beatport\Exceptions\InvalidResourceException;
 use Wimski\Beatport\Factories\ResourceProcessorFactory;
 use Wimski\Beatport\Processors\Resources\ArtistResourceProcessor;
 use Wimski\Beatport\Processors\Resources\GenreResourceProcessor;
+use Wimski\Beatport\Processors\Resources\KeyResourceProcessor;
 use Wimski\Beatport\Processors\Resources\LabelResourceProcessor;
 use Wimski\Beatport\Processors\Resources\ReleaseResourceProcessor;
 use Wimski\Beatport\Processors\Resources\SubGenreResourceProcessor;
@@ -37,6 +38,17 @@ class ResourceProcessorFactoryTest extends TestCase
 
         $factory = new ResourceProcessorFactory($app);
         $factory->make(ResourceTypeEnum::GENRE());
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_a_key_resource_processor(): void
+    {
+        $app = $this->getApp(KeyResourceProcessor::class);
+
+        $factory = new ResourceProcessorFactory($app);
+        $factory->make(ResourceTypeEnum::KEY());
     }
 
     /**

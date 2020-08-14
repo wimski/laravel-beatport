@@ -22,6 +22,7 @@ class ResourceTypeEnumTest extends TestCase
     {
         return [
             ['artist',    'artists'],
+            ['key',       'keys'],
             ['genre',     'genres'],
             ['label',     'labels'],
             ['release',   'releases'],
