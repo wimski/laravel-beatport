@@ -91,6 +91,7 @@ class RequestTest extends TestCase
         $request = new Request($guzzle, $factory, $paginationProcessor, $this->app->make(Repository::class), $config);
 
         static::assertInstanceOf(Collection::class, $request->data());
+        static::assertSame('lorem ipsum dolor sit amet', $request->response());
 
         $request->paginate(PaginationActionEnum::NEXT());
     }

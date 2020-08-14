@@ -7,6 +7,8 @@ use Wimski\Beatport\Enums\PaginationActionEnum;
 
 interface RequestInterface
 {
+    public function response(): ?string;
+
     /**
      * @return Collection<DataInterface>|DataInterface|null
      */

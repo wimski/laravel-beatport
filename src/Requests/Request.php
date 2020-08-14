@@ -40,6 +40,11 @@ class Request implements RequestInterface
     protected $resourceProcessor;
 
     /**
+     * @var string
+     */
+    protected $response;
+
+    /**
      * @var Collection<DataInterface>|DataInterface|null
      */
     protected $data;
@@ -63,11 +68,16 @@ class Request implements RequestInterface
 
         $this->resourceProcessor = $this->resourceProcessorFactory->make($requestConfig->resourceType());
 
-        $response = $this->request();
+        $this->response = $this->request();
 
         if ($this->requestConfig->canHavePagination()) {
-            $this->pagination = $paginationProcessor->process($response);
+            $this->pagination = $paginationProcessor->process($this->response);
         }
+    }
+
+    public function response(): ?string
+    {
+        return $this->response;
     }
 
     public function data()
@@ -85,7 +95,7 @@ class Request implements RequestInterface
 
         $this->pagination->{$action->getValue()}($amount);
 
-        $this->request();
+        $this->response = $this->request();
 
         return $this;
     }
