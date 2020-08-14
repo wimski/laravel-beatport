@@ -65,7 +65,7 @@ class Track extends AbstractData
         return $this->remix;
     }
 
-    public function setRemix(string $remix): self
+    public function setRemix(string $remix = null): self
     {
         $this->remix = $remix;
 
@@ -78,10 +78,10 @@ class Track extends AbstractData
     }
 
     /**
-     * @param int|string $length
+     * @param int|string|null $length
      * @return $this
      */
-    public function setLength($length): self
+    public function setLength($length = null): self
     {
         $this->length = $this->parseDuration($length);
 
@@ -93,7 +93,7 @@ class Track extends AbstractData
         return $this->bpm;
     }
 
-    public function setBpm(int $bpm): self
+    public function setBpm(int $bpm = null): self
     {
         $this->bpm = $bpm;
 
@@ -105,7 +105,7 @@ class Track extends AbstractData
         return $this->key;
     }
 
-    public function setKey(string $key): self
+    public function setKey(string $key = null): self
     {
         $this->key = $key;
 
@@ -117,7 +117,7 @@ class Track extends AbstractData
         return $this->waveform;
     }
 
-    public function setWaveform(string $waveform): self
+    public function setWaveform(string $waveform = null): self
     {
         $this->waveform = $waveform;
 
@@ -129,7 +129,7 @@ class Track extends AbstractData
         return $this->genre;
     }
 
-    public function setGenre(Genre $genre): self
+    public function setGenre(Genre $genre = null): self
     {
         $this->genre = $genre;
 
@@ -141,7 +141,7 @@ class Track extends AbstractData
         return $this->subGenre;
     }
 
-    public function setSubGenre(SubGenre $subGenre): self
+    public function setSubGenre(SubGenre $subGenre = null): self
     {
         $this->subGenre = $subGenre;
 
@@ -153,7 +153,7 @@ class Track extends AbstractData
         return $this->release;
     }
 
-    public function setRelease(Release $release): self
+    public function setRelease(Release $release = null): self
     {
         $this->release = $release;
 

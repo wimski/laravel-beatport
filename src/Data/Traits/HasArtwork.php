@@ -14,7 +14,7 @@ trait HasArtwork
         return $this->artwork;
     }
 
-    public function setArtwork(string $artwork): self
+    public function setArtwork(string $artwork = null): self
     {
         $this->artwork = $artwork;
 

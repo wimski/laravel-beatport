@@ -33,7 +33,7 @@ class Release extends AbstractData
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description = null): self
     {
         $this->description = $description;
 
@@ -45,7 +45,7 @@ class Release extends AbstractData
         return $this->catalog;
     }
 
-    public function setCatalog(string $catalog): self
+    public function setCatalog(string $catalog = null): self
     {
         $this->catalog = $catalog;
 

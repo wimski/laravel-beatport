@@ -32,7 +32,7 @@ abstract class AbstractData implements DataInterface
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title = null): self
     {
         $this->title = $title;
 
@@ -44,7 +44,7 @@ abstract class AbstractData implements DataInterface
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(string $slug = null): self
     {
         $this->slug = $slug;
 
@@ -56,7 +56,7 @@ abstract class AbstractData implements DataInterface
         return $this->id;
     }
 
-    public function setId(int $id): self
+    public function setId(int $id = null): self
     {
         $this->id = $id;
 

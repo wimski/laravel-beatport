@@ -16,7 +16,7 @@ trait HasLabel
         return $this->label;
     }
 
-    public function setLabel(Label $label): self
+    public function setLabel(Label $label = null): self
     {
         $this->label = $label;
 

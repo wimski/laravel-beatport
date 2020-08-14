@@ -20,12 +20,12 @@ trait HasReleased
     }
 
     /**
-     * @param Carbon|string $released
+     * @param Carbon|string|null $released
      * @return $this
      */
-    public function setReleased($released): self
+    public function setReleased($released = null): self
     {
-        $this->released = $this->parseDate($released);
+        $this->released = $released ? $this->parseDate($released): null;
 
         return $this;
     }
