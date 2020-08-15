@@ -177,6 +177,7 @@ class RequestTest extends TestCase
 
         $request = $this->getRequest($config);
 
+        static::assertTrue($request->hasPagination());
         static::assertSame(1, $request->currentPage());
         static::assertSame(3, $request->totalPages());
     }

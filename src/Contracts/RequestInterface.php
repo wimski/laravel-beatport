@@ -21,6 +21,8 @@ interface RequestInterface
      */
     public function paginate($action, int $amount = null): RequestInterface;
 
+    public function hasPagination(): bool;
+
     public function currentPage(): ?int;
 
     public function totalPages(): ?int;

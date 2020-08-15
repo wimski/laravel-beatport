@@ -87,7 +87,7 @@ class Request implements RequestInterface
 
     public function paginate($action, int $amount = null): RequestInterface
     {
-        if (! $this->pagination || ! PaginationActionEnum::isValid($action)) {
+        if (! $this->hasPagination() || ! PaginationActionEnum::isValid($action)) {
             return $this;
         }
 
@@ -100,14 +100,19 @@ class Request implements RequestInterface
         return $this;
     }
 
+    public function hasPagination(): bool
+    {
+        return $this->pagination !== null;
+    }
+
     public function currentPage(): ?int
     {
-        return $this->pagination ? $this->pagination->current() : null;
+        return $this->hasPagination() ? $this->pagination->current() : null;
     }
 
     public function totalPages(): ?int
     {
-        return $this->pagination ? $this->pagination->total() : null;
+        return $this->hasPagination() ? $this->pagination->total() : null;
     }
 
     protected function request(): string
@@ -116,7 +121,7 @@ class Request implements RequestInterface
 
         $params = $this->requestConfig->queryParams();
 
-        if ($this->pagination && $this->pagination->current() > 1) {
+        if ($this->hasPagination() && $this->pagination->current() > 1) {
             $params['page'] = $this->pagination->current();
         }
 
