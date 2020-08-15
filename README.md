@@ -26,6 +26,10 @@ Otherwise, you can manually register the service provider in `config/app.php`:
    ],
 ```
 
+## Documentation
+
+For a usage guide and reference, please see the [documentation](./docs/index.md).
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
