@@ -8,11 +8,6 @@ use Wimski\Beatport\Exceptions\InvalidFilterInputException;
 class ResourceFilter extends AbstractFilter
 {
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
      * @var int[]
      */
     protected $values;
