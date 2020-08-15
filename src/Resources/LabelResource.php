@@ -20,7 +20,7 @@ class LabelResource extends AbstractResource
         return ResourceTypeEnum::LABEL();
     }
 
-    protected function searchFilters(): Collection
+    public function searchFilters(): Collection
     {
         return collect([
             ResourceFilter::make('genre')->multiple(),
@@ -28,7 +28,7 @@ class LabelResource extends AbstractResource
         ]);
     }
 
-    protected function relationships(): Collection
+    public function relationships(): Collection
     {
         return collect([
             ReleaseResource::class,

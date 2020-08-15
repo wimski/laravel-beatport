@@ -20,7 +20,7 @@ class GenreResource extends AbstractResource
         return ResourceTypeEnum::GENRE();
     }
 
-    protected function relationships(): Collection
+    public function relationships(): Collection
     {
         return collect([
             ReleaseResource::class,

@@ -26,14 +26,14 @@ class TrackResource extends AbstractResource
         return ResourceTypeEnum::TRACK();
     }
 
-    protected function indexFilters(): Collection
+    public function indexFilters(): Collection
     {
         return $this->relationshipFilters()->merge([
             PreorderFilter::make(),
         ]);
     }
 
-    protected function relationshipFilters(): Collection
+    public function relationshipFilters(): Collection
     {
         return $this->searchFilters()->merge([
             BpmFilter::make(),
@@ -42,7 +42,7 @@ class TrackResource extends AbstractResource
         ]);
     }
 
-    protected function searchFilters(): Collection
+    public function searchFilters(): Collection
     {
         return collect([
             ResourceFilter::make('artists')->multiple(),
@@ -53,17 +53,17 @@ class TrackResource extends AbstractResource
         ]);
     }
 
-    protected function indexSorts(): Collection
+    public function indexSorts(): Collection
     {
         return $this->sorts();
     }
 
-    protected function relationshipSorts(): Collection
+    public function relationshipSorts(): Collection
     {
         return $this->sorts();
     }
 
-    protected function searchSorts(): Collection
+    public function searchSorts(): Collection
     {
         return $this->sorts();
     }
@@ -71,7 +71,7 @@ class TrackResource extends AbstractResource
     /**
      * @return Collection<RequestSortInterface>
      */
-    protected function sorts(): Collection
+    public function sorts(): Collection
     {
         return collect([
             Sort::make('genre'),

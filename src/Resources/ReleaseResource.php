@@ -24,14 +24,14 @@ class ReleaseResource extends AbstractResource
         return ResourceTypeEnum::RELEASE();
     }
 
-    protected function indexFilters(): Collection
+    public function indexFilters(): Collection
     {
         return $this->relationshipFilters()->merge([
             PreorderFilter::make(),
         ]);
     }
 
-    protected function relationshipFilters(): Collection
+    public function relationshipFilters(): Collection
     {
         return $this->searchFilters()->merge([
             DateFilter::make(),
@@ -39,7 +39,7 @@ class ReleaseResource extends AbstractResource
         ]);
     }
 
-    protected function searchFilters(): Collection
+    public function searchFilters(): Collection
     {
         return collect([
             ResourceFilter::make('artists')->multiple(),
@@ -49,7 +49,7 @@ class ReleaseResource extends AbstractResource
         ]);
     }
 
-    protected function indexSorts(): Collection
+    public function indexSorts(): Collection
     {
         return collect([
             Sort::make('label'),

@@ -65,58 +65,37 @@ abstract class AbstractResource implements ResourceInterface
         })->isNotEmpty();
     }
 
-    /**
-     * @return Collection<RequestFilterInterface>
-     */
-    protected function indexFilters(): Collection
+    public function indexFilters(): Collection
     {
         return new Collection();
     }
 
-    /**
-     * @return Collection<RequestFilterInterface>
-     */
-    protected function relationshipFilters(): Collection
+    public function relationshipFilters(): Collection
     {
         return new Collection();
     }
 
-    /**
-     * @return Collection<RequestFilterInterface>
-     */
-    protected function searchFilters(): Collection
+    public function searchFilters(): Collection
     {
         return new Collection();
     }
 
-    /**
-     * @return Collection<RequestSortInterface>
-     */
-    protected function indexSorts(): Collection
+    public function indexSorts(): Collection
     {
         return new Collection();
     }
 
-    /**
-     * @return Collection<RequestSortInterface>
-     */
-    protected function relationshipSorts(): Collection
+    public function relationshipSorts(): Collection
     {
         return new Collection();
     }
 
-    /**
-     * @return Collection<RequestSortInterface>
-     */
-    protected function searchSorts(): Collection
+    public function searchSorts(): Collection
     {
         return new Collection();
     }
 
-    /**
-     * @return Collection<string>
-     */
-    protected function relationships(): Collection
+    public function relationships(): Collection
     {
         return new Collection();
     }
