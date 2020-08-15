@@ -148,7 +148,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     public function get(): RequestInterface
     {
         return $this->app->make(RequestInterface::class, [
-            'config' => new RequestConfig(
+            'requestConfig' => new RequestConfig(
                 $this->resource->type(),
                 $this->type(),
                 $this->canHavePagination(),
