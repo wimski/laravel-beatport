@@ -121,13 +121,13 @@ class ViewRequestBuilderTest extends TestCase
             ->once()
             ->withArgs(function (string $class, array $args) {
                 return $class === RequestInterface::class
-                    && array_key_exists('config', $args)
-                    && $args['config'] instanceOf RequestConfig
-                    && $args['config']->resourceType()->getValue() === 'foobar'
-                    && $args['config']->requestType()->equals(RequestTypeEnum::VIEW())
-                    && $args['config']->canHavePagination() === false
-                    && $args['config']->path() === '/foobar/slug/1'
-                    && $args['config']->queryParams() === [];
+                    && array_key_exists('requestConfig', $args)
+                    && $args['requestConfig'] instanceOf RequestConfig
+                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
+                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::VIEW())
+                    && $args['requestConfig']->canHavePagination() === false
+                    && $args['requestConfig']->path() === '/foobar/slug/1'
+                    && $args['requestConfig']->queryParams() === [];
             })
             ->andReturn($request)
             ->getMock();

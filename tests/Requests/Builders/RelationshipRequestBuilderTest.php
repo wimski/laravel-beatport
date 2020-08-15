@@ -387,13 +387,13 @@ class RelationshipRequestBuilderTest extends TestCase
             ->once()
             ->withArgs(function (string $class, array $args) {
                 return $class === RequestInterface::class
-                    && array_key_exists('config', $args)
-                    && $args['config'] instanceOf RequestConfig
-                    && $args['config']->resourceType()->getValue() === 'foobar'
-                    && $args['config']->requestType()->equals(RequestTypeEnum::RELATIONSHIP())
-                    && $args['config']->canHavePagination() === true
-                    && $args['config']->path() === '/lipsum/slug/1/foobars'
-                    && $args['config']->queryParams() === [
+                    && array_key_exists('requestConfig', $args)
+                    && $args['requestConfig'] instanceOf RequestConfig
+                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
+                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::RELATIONSHIP())
+                    && $args['requestConfig']->canHavePagination() === true
+                    && $args['requestConfig']->path() === '/lipsum/slug/1/foobars'
+                    && $args['requestConfig']->queryParams() === [
                         'per-page' => 25,
                     ];
             })

@@ -352,13 +352,13 @@ class IndexRequestBuilderTest extends TestCase
             ->once()
             ->withArgs(function (string $class, array $args) {
                 return $class === RequestInterface::class
-                    && array_key_exists('config', $args)
-                    && $args['config'] instanceOf RequestConfig
-                    && $args['config']->resourceType()->getValue() === 'foobar'
-                    && $args['config']->requestType()->equals(RequestTypeEnum::INDEX())
-                    && $args['config']->canHavePagination() === true
-                    && $args['config']->path() === '/foobars/all'
-                    && $args['config']->queryParams() === [
+                    && array_key_exists('requestConfig', $args)
+                    && $args['requestConfig'] instanceOf RequestConfig
+                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
+                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::INDEX())
+                    && $args['requestConfig']->canHavePagination() === true
+                    && $args['requestConfig']->path() === '/foobars/all'
+                    && $args['requestConfig']->queryParams() === [
                         'per-page' => 25,
                     ];
             })

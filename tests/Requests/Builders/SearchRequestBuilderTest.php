@@ -374,13 +374,13 @@ class SearchRequestBuilderTest extends TestCase
             ->once()
             ->withArgs(function (string $class, array $args) {
                 return $class === RequestInterface::class
-                    && array_key_exists('config', $args)
-                    && $args['config'] instanceOf RequestConfig
-                    && $args['config']->resourceType()->getValue() === 'foobar'
-                    && $args['config']->requestType()->equals(RequestTypeEnum::QUERY())
-                    && $args['config']->canHavePagination() === true
-                    && $args['config']->path() === '/search/foobars'
-                    && $args['config']->queryParams() === [
+                    && array_key_exists('requestConfig', $args)
+                    && $args['requestConfig'] instanceOf RequestConfig
+                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
+                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::QUERY())
+                    && $args['requestConfig']->canHavePagination() === true
+                    && $args['requestConfig']->path() === '/search/foobars'
+                    && $args['requestConfig']->queryParams() === [
                         'per-page' => 25,
                         'q'        => null,
                     ];
