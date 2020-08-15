@@ -38,7 +38,7 @@ class DateFilter extends AbstractAttributeFilter
     {
         if (is_array($input)) {
             $this->value = $this->processArray($input);
-        } elseif (is_string($input)) {
+        } elseif (is_string($input) || $input instanceof DateFilterPresetEnum) {
             $this->value = $this->processString($input);
         } else {
             throw new InvalidFilterInputException('The DateFilter input must be an array or string');
