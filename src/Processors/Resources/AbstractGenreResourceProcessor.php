@@ -25,7 +25,8 @@ abstract class AbstractGenreResourceProcessor extends AbstractResourceProcessor
     {
         $genre = new $class();
 
-        $title = $item->getText('label');
+        $label = $item->get('label');
+        $title = trim($label->getNode(0)->firstChild->nodeValue);
 
         $genre
             ->setId((int) $item->getAttr('input', 'name'))

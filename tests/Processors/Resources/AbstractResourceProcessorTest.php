@@ -2,6 +2,7 @@
 
 namespace Wimski\Beatport\Tests\Processors\Resources;
 
+use Mockery;
 use Wimski\Beatport\Enums\RequestTypeEnum;
 use Wimski\Beatport\Processors\ResourceUrlProcessor;
 use Wimski\Beatport\Tests\Stubs\Classes\ProcessorWithoutMethods;
@@ -20,5 +21,14 @@ class AbstractResourceProcessorTest extends TestCase
         static::assertNull($processor->process(RequestTypeEnum::RELATIONSHIP(), ''));
         static::assertNull($processor->process(RequestTypeEnum::QUERY(), ''));
         static::assertNull($processor->process(RequestTypeEnum::VIEW(), ''));
+
+        /** @var RequestTypeEnum $requestType */
+        $requestType = Mockery::mock(RequestTypeEnum::class)
+            ->shouldReceive('getValue')
+            ->once()
+            ->andReturn('foo')
+            ->getMock();
+
+        static::assertNull($processor->process($requestType, ''));
     }
 }

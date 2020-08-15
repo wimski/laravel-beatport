@@ -1,0 +1,62 @@
+<div class="pagination-container">
+    <div class="pag-number pag-number-current">1</div>
+    <div class="pag-number">2</div>
+    <div class="pag-number">3</div>
+</div>
+
+<ul class="bucket-items">
+
+    <li class="bucket-item">
+        <div class="buk-track-artwork-parent">
+            <a href="/release/destruction/3048827">
+                <img src="https://geo-media.beatport.com/image_size/95x95/29f0b48d-61d9-4378-a8ac-66c083536c17.jpg">
+            </a>
+        </div>
+        <p class="buk-track-title">
+            <a href="/track/destruction-original-mix/13922362">
+                <span class="buk-track-primary-title">Destruction</span>
+                <span class="buk-track-remixed">Original Mix</span>
+            </a>
+        </p>
+        <p class="buk-track-artists">
+            <a href="/artist/noath/322298">Noath</a>
+        </p>
+        <p class="buk-track-remixers"></p>
+        <p class="buk-track-labels">
+            <a href="/label/epidemic-digital/88111">Epidemic Digital</a></p>
+        <p class="buk-track-genre">
+            <a href="/genre/hard-dance-hardcore/8">Hard Dance / Hardcore</a>
+        </p>
+        <p class="buk-track-key">F♯ maj</p>
+        <p class="buk-track-released">2020-07-31</p>
+    </li>
+
+    <li class="bucket-item">
+        <div class="buk-track-artwork-parent">
+            <a href="/release/raindrops/3075573">
+                <img src="https://geo-media.beatport.com/image_size/95x95/dd75f45e-8cfa-43fb-932b-468af32a80fc.jpg">
+            </a>
+        </div>
+        <p class="buk-track-title">
+            <a href="/track/raindrops-sunset-bros-extended-remix/14023799">
+                <span class="buk-track-primary-title">Raindrops</span>
+                <span class="buk-track-remixed">Sunset Bros Extended Remix</span>
+            </a>
+        </p>
+        <p class="buk-track-artists">
+            <a href="/artist/stunt/13939">Stunt</a>,
+            <a href="/artist/ben-nicky/67136">Ben Nicky</a>
+        </p>
+        <p class="buk-track-remixers">
+            <a href="/artist/sunset-bros/116822">Sunset Bros</a>
+        </p>
+        <p class="buk-track-labels">
+            <a href="/label/xploded-music-limited/88162">Xploded Music Limited</a></p>
+        <p class="buk-track-genre">
+            <a href="/sub-genre/hard-trance/121">Hard Trance</a>
+        </p>
+        <p class="buk-track-key">B min</p>
+        <p class="buk-track-released">2020-07-31</p>
+    </li>
+
+</ul>

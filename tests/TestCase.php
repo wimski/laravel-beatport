@@ -14,8 +14,28 @@ abstract class TestCase extends OrchestraTestCase
         ];
     }
 
+    protected function getStubsPath(): string
+    {
+        return implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'stubs',
+        ]);
+    }
+
     protected function loadHtmlStub(string $fileName): string
     {
-        return file_get_contents(__DIR__ . '/stubs/html/' . $fileName . '.html');
+        return file_get_contents(implode(DIRECTORY_SEPARATOR, [
+            $this->getStubsPath(),
+            'html',
+            "{$fileName}.html",
+        ]));
+    }
+
+    protected function getResponsesPath(): string
+    {
+        return implode(DIRECTORY_SEPARATOR, [
+            $this->getStubsPath(),
+            'responses',
+        ]);
     }
 }

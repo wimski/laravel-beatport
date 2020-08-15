@@ -35,10 +35,9 @@ abstract class AbstractResourceProcessor implements ResourceProcessorInterface
 
             case RequestTypeEnum::VIEW:
                 return $this->processView(new Crawler($html));
-
-            default:
-                // omitted on purpose
         }
+
+        return null;
     }
 
     protected function processAnchor(Crawler $anchor): array

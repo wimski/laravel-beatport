@@ -13,9 +13,12 @@ class KeyResourceProcessor extends AbstractResourceProcessor
         $keys = $html->filter('.filter-key-drop li')->each(function (Crawler $item) {
             $key = new Key();
 
+            $label = $item->get('label');
+            $title = trim($label->getNode(0)->firstChild->nodeValue);
+
             $key
                 ->setId((int) $item->getAttr('input', 'name'))
-                ->setTitle($item->getText('label'));
+                ->setTitle($title);
 
             return $key;
         });

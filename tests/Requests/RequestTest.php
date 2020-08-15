@@ -2,11 +2,16 @@
 
 namespace Wimski\Beatport\Tests\Requests;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\HandlerStack;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Mockery;
 use Psr\Http\Message\ResponseInterface;
+use Swis\Guzzle\Fixture\Handler;
+use Swis\Guzzle\Fixture\ResponseBuilder;
+use Wimski\Beatport\Contracts\RequestInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Enums\PaginationActionEnum;
@@ -94,5 +99,108 @@ class RequestTest extends TestCase
         static::assertSame('lorem ipsum dolor sit amet', $request->response());
 
         $request->paginate(PaginationActionEnum::NEXT());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_a_response(): void
+    {
+        $config = new RequestConfig(
+            ResourceTypeEnum::TRACK(),
+            RequestTypeEnum::INDEX(),
+            true,
+            '/tracks/all',
+            [],
+        );
+
+        $request = $this->getRequest($config);
+
+        static::assertSame(
+            file_get_contents($this->getResponsesPath() . '/www.beatport.com/tracks/all.get.mock'),
+            $request->response(),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_data(): void
+    {
+        $config = new RequestConfig(
+            ResourceTypeEnum::TRACK(),
+            RequestTypeEnum::INDEX(),
+            true,
+            '/tracks/all',
+            [],
+        );
+
+        $request = $this->getRequest($config);
+
+        static::assertCount(2, $request->data());
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_paginate_when_it_has_no_pagination(): void
+    {
+        $config = new RequestConfig(
+            ResourceTypeEnum::TRACK(),
+            RequestTypeEnum::INDEX(),
+            true,
+            '/track/slug/123',
+            [],
+        );
+
+        $request = $this->getRequest($config);
+
+        $response = $request->response();
+
+        $request->paginate('next');
+
+        static::assertSame($response, $request->response());
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_first_and_last_page(): void
+    {
+        $config = new RequestConfig(
+            ResourceTypeEnum::TRACK(),
+            RequestTypeEnum::INDEX(),
+            true,
+            '/tracks/all',
+            [],
+        );
+
+        $request = $this->getRequest($config);
+
+        static::assertTrue($request->isFirstPage());
+        static::assertFalse($request->isLastPage());
+    }
+
+    protected function getRequest(RequestConfig $config): RequestInterface
+    {
+        $responseBuilder = new ResponseBuilder($this->getResponsesPath());
+        $handler         = new Handler($responseBuilder);
+        $handlerStack    = HandlerStack::create($handler);
+        $guzzleClient    = new Client(['handler' => $handlerStack]);
+
+        /** @var Repository $appConfig */
+        $appConfig = Mockery::mock(Repository::class)
+            ->shouldReceive('get')
+            ->with('beatport.url')
+            ->andReturn('https://www.beatport.com')
+            ->getMock();
+
+        return new Request(
+            $guzzleClient,
+            $this->app->make(ResourceProcessorFactoryInterface::class),
+            $this->app->make(PaginationProcessor::class),
+            $appConfig,
+            $config,
+        );
     }
 }
