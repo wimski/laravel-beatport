@@ -100,14 +100,14 @@ class Request implements RequestInterface
         return $this;
     }
 
-    public function isFirstPage(): bool
+    public function currentPage(): ?int
     {
-        return ! $this->pagination || $this->pagination->current() === 1;
+        return $this->pagination ? $this->pagination->current() : null;
     }
 
-    public function isLastPage(): bool
+    public function totalPages(): ?int
     {
-        return ! $this->pagination || $this->pagination->current() === $this->pagination->total();
+        return $this->pagination ? $this->pagination->total() : null;
     }
 
     protected function request(): string

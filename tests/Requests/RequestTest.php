@@ -165,7 +165,7 @@ class RequestTest extends TestCase
     /**
      * @test
      */
-    public function it_checks_first_and_last_page(): void
+    public function it_has_pagination_info(): void
     {
         $config = new RequestConfig(
             ResourceTypeEnum::TRACK(),
@@ -177,8 +177,8 @@ class RequestTest extends TestCase
 
         $request = $this->getRequest($config);
 
-        static::assertTrue($request->isFirstPage());
-        static::assertFalse($request->isLastPage());
+        static::assertSame(1, $request->currentPage());
+        static::assertSame(3, $request->totalPages());
     }
 
     protected function getRequest(RequestConfig $config): RequestInterface
