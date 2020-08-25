@@ -134,7 +134,7 @@ class TrackResourceProcessor extends AbstractResourceProcessor
         $releaseAnchor = $row->get('.buk-track-artwork-parent');
         $releaseProps  = $this->urlProcessor->processResourceAttributes($releaseAnchor->getAttr('a', 'href'));
         $track->setRelease(new Release($releaseProps));
-        $track->getRelease()->setArtwork($releaseAnchor->getAttr('img', 'src'));
+        $track->getRelease()->setArtwork($releaseAnchor->getAttr('img', 'data-src'));
 
         $artists = $row->filter('.buk-track-artists a')->each(function (Crawler $anchor) {
             return new Artist($this->processAnchor($anchor));

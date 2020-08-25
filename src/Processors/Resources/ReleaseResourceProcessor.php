@@ -145,7 +145,7 @@ class ReleaseResourceProcessor extends AbstractResourceProcessor
             );
 
             $release
-                ->setArtwork($item->getAttr('.release-artwork', 'src'))
+                ->setArtwork($item->getAttr('.release-artwork', 'data-src'))
                 ->setLabel(new Label(
                     $this->processAnchor($item->get('.release-label a'))
                 ));
