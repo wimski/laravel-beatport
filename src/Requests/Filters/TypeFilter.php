@@ -35,7 +35,7 @@ class TypeFilter extends AbstractAttributeFilter
             throw new InvalidFilterInputException('The TypeFilter input must be a valid TypeFilterPresetEnum value');
         }
 
-        $this->value = $input;
+        $this->value = (new TypeFilterPresetEnum($input))->getValue();
 
         return $this;
     }

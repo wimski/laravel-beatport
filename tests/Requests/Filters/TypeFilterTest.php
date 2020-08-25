@@ -2,6 +2,7 @@
 
 namespace Wimski\Beatport\Tests\Requests\Filters;
 
+use Wimski\Beatport\Enums\TypeFilterPresetEnum;
 use Wimski\Beatport\Exceptions\InvalidFilterInputException;
 use Wimski\Beatport\Requests\Filters\TypeFilter;
 use Wimski\Beatport\Tests\TestCase;
@@ -40,10 +41,24 @@ class TypeFilterTest extends TestCase
      * @test
      * @depends it_returns_query_params
      */
-    public function it_accepts_input(): void
+    public function it_accepts_input_as_string(): void
     {
         $filter = new TypeFilter();
         $filter->input('Album');
+
+        static::assertSame([
+            'type' => 'Album',
+        ], $filter->queryParams());
+    }
+
+    /**
+     * @test
+     * @depends it_returns_query_params
+     */
+    public function it_accepts_input_as_enum(): void
+    {
+        $filter = new TypeFilter();
+        $filter->input(TypeFilterPresetEnum::ALBUM());
 
         static::assertSame([
             'type' => 'Album',
