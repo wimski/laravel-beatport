@@ -93,7 +93,8 @@ class RequestTest extends TestCase
             ->andReturn($pagination)
             ->getMock();
 
-        $request = new Request($guzzle, $factory, $paginationProcessor, $this->app->make(Repository::class), $config);
+        $request = new Request($guzzle, $factory, $paginationProcessor, $this->app->make(Repository::class));
+        $request->startWithConfig($config);
 
         static::assertInstanceOf(Collection::class, $request->data());
         static::assertSame('lorem ipsum dolor sit amet', $request->response());
@@ -182,6 +183,69 @@ class RequestTest extends TestCase
         static::assertSame(3, $request->totalPages());
     }
 
+    /**
+     * @test
+     */
+    public function it_transforms_to_array(): void
+    {
+        $config = new RequestConfig(
+            ResourceTypeEnum::TRACK(),
+            RequestTypeEnum::INDEX(),
+            true,
+            '/tracks/all',
+            ['per-page' => 25],
+        );
+
+        $request = $this->getRequest($config);
+
+        static::assertSame([
+            'resourceType' => 'track',
+            'requestType'   => 'index',
+            'path'          => '/tracks/all',
+            'queryParams'   => ['per-page' => 25],
+            'hasPagination' => true,
+            'currentPage'   => 1,
+            'totalPages'    => 3,
+        ], $request->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function it_transform_from_array(): void
+    {
+        /** @var ResourceProcessorFactoryInterface $factory */
+        $factory = Mockery::mock(ResourceProcessorFactoryInterface::class)
+            ->shouldReceive('make')
+            ->once()
+            ->withArgs(function ($type) {
+                return $type instanceof ResourceTypeEnum
+                    && $type->getValue() === 'track';
+            })
+            ->getMock();
+
+        $request = new Request(
+            Mockery::mock(ClientInterface::class),
+            $factory,
+            Mockery::mock(PaginationProcessor::class),
+            Mockery::mock(Repository::class),
+        );
+
+        $request->fromArray([
+            'resourceType' => 'track',
+            'requestType'   => 'index',
+            'path'          => '/tracks/all',
+            'queryParams'   => ['per-page' => 25],
+            'hasPagination' => true,
+            'currentPage'   => 1,
+            'totalPages'    => 3,
+        ]);
+
+        static::assertTrue($request->hasPagination());
+        static::assertSame(1, $request->currentPage());
+        static::assertSame(3, $request->totalPages());
+    }
+
     protected function getRequest(RequestConfig $config): RequestInterface
     {
         $responseBuilder = new ResponseBuilder($this->getResponsesPath());
@@ -196,12 +260,13 @@ class RequestTest extends TestCase
             ->andReturn('https://www.beatport.com')
             ->getMock();
 
-        return new Request(
+        $request = new Request(
             $guzzleClient,
             $this->app->make(ResourceProcessorFactoryInterface::class),
             $this->app->make(PaginationProcessor::class),
             $appConfig,
-            $config,
         );
+
+        return $request->startWithConfig($config);
     }
 }

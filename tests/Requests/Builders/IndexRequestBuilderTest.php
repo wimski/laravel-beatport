@@ -344,24 +344,27 @@ class IndexRequestBuilderTest extends TestCase
             ->andReturn($enum)
             ->getMock();
 
-        $request = Mockery::mock(RequestInterface::class);
+        $request = Mockery::mock(RequestInterface::class)
+            ->shouldReceive('startWithConfig')
+            ->once()
+            ->withArgs(function ($config) {
+                return $config instanceOf RequestConfig
+                    && $config->resourceType()->getValue() === 'foobar'
+                    && $config->requestType()->equals(RequestTypeEnum::INDEX())
+                    && $config->canHavePagination() === true
+                    && $config->path() === '/foobars/all'
+                    && $config->queryParams() === [
+                        'per-page' => 25,
+                    ];
+            })
+            ->andReturnSelf()
+            ->getMock();
 
         /** @var Container $app */
         $app = Mockery::mock(Container::class)
             ->shouldReceive('make')
             ->once()
-            ->withArgs(function (string $class, array $args) {
-                return $class === RequestInterface::class
-                    && array_key_exists('requestConfig', $args)
-                    && $args['requestConfig'] instanceOf RequestConfig
-                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
-                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::INDEX())
-                    && $args['requestConfig']->canHavePagination() === true
-                    && $args['requestConfig']->path() === '/foobars/all'
-                    && $args['requestConfig']->queryParams() === [
-                        'per-page' => 25,
-                    ];
-            })
+            ->with(RequestInterface::class)
             ->andReturn($request)
             ->getMock();
 

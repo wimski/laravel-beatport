@@ -113,22 +113,25 @@ class ViewRequestBuilderTest extends TestCase
             ->andReturn($enum)
             ->getMock();
 
-        $request = Mockery::mock(RequestInterface::class);
+        $request = Mockery::mock(RequestInterface::class)
+            ->shouldReceive('startWithConfig')
+            ->once()
+            ->withArgs(function ($config) {
+                return $config instanceOf RequestConfig
+                    && $config->resourceType()->getValue() === 'foobar'
+                    && $config->requestType()->equals(RequestTypeEnum::VIEW())
+                    && $config->canHavePagination() === false
+                    && $config->path() === '/foobar/slug/1'
+                    && $config->queryParams() === [];
+            })
+            ->andReturnSelf()
+            ->getMock();
 
         /** @var Container $app */
         $app = Mockery::mock(Container::class)
             ->shouldReceive('make')
             ->once()
-            ->withArgs(function (string $class, array $args) {
-                return $class === RequestInterface::class
-                    && array_key_exists('requestConfig', $args)
-                    && $args['requestConfig'] instanceOf RequestConfig
-                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
-                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::VIEW())
-                    && $args['requestConfig']->canHavePagination() === false
-                    && $args['requestConfig']->path() === '/foobar/slug/1'
-                    && $args['requestConfig']->queryParams() === [];
-            })
+            ->with(RequestInterface::class)
             ->andReturn($request)
             ->getMock();
 

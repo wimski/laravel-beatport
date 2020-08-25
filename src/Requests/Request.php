@@ -10,6 +10,8 @@ use Wimski\Beatport\Contracts\ResourceProcessorFactoryInterface;
 use Wimski\Beatport\Contracts\ResourceProcessorInterface;
 use Wimski\Beatport\Contracts\RequestInterface;
 use Wimski\Beatport\Enums\PaginationActionEnum;
+use Wimski\Beatport\Enums\RequestTypeEnum;
+use Wimski\Beatport\Enums\ResourceTypeEnum;
 use Wimski\Beatport\Processors\PaginationProcessor;
 
 class Request implements RequestInterface
@@ -23,6 +25,11 @@ class Request implements RequestInterface
      * @var ResourceProcessorFactoryInterface
      */
     protected $resourceProcessorFactory;
+
+    /**
+     * @var PaginationProcessor
+     */
+    protected $paginationProcessor;
 
     /**
      * @var Repository
@@ -58,21 +65,12 @@ class Request implements RequestInterface
         ClientInterface $guzzle,
         ResourceProcessorFactoryInterface $resourceProcessorFactory,
         PaginationProcessor $paginationProcessor,
-        Repository $config,
-        RequestConfig $requestConfig
+        Repository $config
     ) {
         $this->guzzle                   = $guzzle;
         $this->resourceProcessorFactory = $resourceProcessorFactory;
+        $this->paginationProcessor      = $paginationProcessor;
         $this->config                   = $config;
-        $this->requestConfig            = $requestConfig;
-
-        $this->resourceProcessor = $this->resourceProcessorFactory->make($requestConfig->resourceType());
-
-        $this->response = $this->request();
-
-        if ($this->requestConfig->canHavePagination()) {
-            $this->pagination = $paginationProcessor->process($this->response);
-        }
     }
 
     public function response(): ?string
@@ -135,5 +133,55 @@ class Request implements RequestInterface
         $this->data = $this->resourceProcessor->process($this->requestConfig->requestType(), $response);
 
         return $response;
+    }
+
+    public function startWithConfig(RequestConfig $requestConfig): RequestInterface
+    {
+        $this->requestConfig = $requestConfig;
+
+        $this->resourceProcessor = $this->resourceProcessorFactory->make($requestConfig->resourceType());
+
+        $this->response = $this->request();
+
+        if ($this->requestConfig->canHavePagination()) {
+            $this->pagination = $this->paginationProcessor->process($this->response);
+        }
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'resourceType'  => $this->requestConfig->resourceType()->getValue(),
+            'requestType'   => $this->requestConfig->requestType()->getValue(),
+            'path'          => $this->requestConfig->path(),
+            'queryParams'   => $this->requestConfig->queryParams(),
+            'hasPagination' => $this->hasPagination(),
+            'currentPage'   => $this->currentPage(),
+            'totalPages'    => $this->totalPages(),
+        ];
+    }
+
+    public function fromArray(array $data): RequestInterface
+    {
+        $this->requestConfig = new RequestConfig(
+            new ResourceTypeEnum($data['resourceType']),
+            new RequestTypeEnum($data['requestType']),
+            $data['hasPagination'],
+            $data['path'],
+            $data['queryParams'],
+        );
+
+        if ($data['hasPagination']) {
+            $this->pagination = new Pagination(
+                $data['currentPage'],
+                $data['totalPages'],
+            );
+        }
+
+        $this->resourceProcessor = $this->resourceProcessorFactory->make($this->requestConfig->resourceType());
+
+        return $this;
     }
 }

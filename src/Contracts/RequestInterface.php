@@ -4,6 +4,7 @@ namespace Wimski\Beatport\Contracts;
 
 use Illuminate\Support\Collection;
 use Wimski\Beatport\Enums\PaginationActionEnum;
+use Wimski\Beatport\Requests\RequestConfig;
 
 interface RequestInterface
 {
@@ -26,4 +27,10 @@ interface RequestInterface
     public function currentPage(): ?int;
 
     public function totalPages(): ?int;
+
+    public function startWithConfig(RequestConfig $requestConfig): RequestInterface;
+
+    public function toArray(): array;
+
+    public function fromArray(array $data): RequestInterface;
 }

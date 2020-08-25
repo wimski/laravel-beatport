@@ -379,24 +379,27 @@ class RelationshipRequestBuilderTest extends TestCase
             ->andReturn($parentEnum)
             ->getMock();
 
-        $request = Mockery::mock(RequestInterface::class);
+        $request = Mockery::mock(RequestInterface::class)
+            ->shouldReceive('startWithConfig')
+            ->once()
+            ->withArgs(function ($config) {
+                return $config instanceOf RequestConfig
+                    && $config->resourceType()->getValue() === 'foobar'
+                    && $config->requestType()->equals(RequestTypeEnum::RELATIONSHIP())
+                    && $config->canHavePagination() === true
+                    && $config->path() === '/lipsum/slug/1/foobars'
+                    && $config->queryParams() === [
+                        'per-page' => 25,
+                    ];
+            })
+            ->andReturnSelf()
+            ->getMock();
 
         /** @var Container $app */
         $app = Mockery::mock(Container::class)
             ->shouldReceive('make')
             ->once()
-            ->withArgs(function (string $class, array $args) {
-                return $class === RequestInterface::class
-                    && array_key_exists('requestConfig', $args)
-                    && $args['requestConfig'] instanceOf RequestConfig
-                    && $args['requestConfig']->resourceType()->getValue() === 'foobar'
-                    && $args['requestConfig']->requestType()->equals(RequestTypeEnum::RELATIONSHIP())
-                    && $args['requestConfig']->canHavePagination() === true
-                    && $args['requestConfig']->path() === '/lipsum/slug/1/foobars'
-                    && $args['requestConfig']->queryParams() === [
-                        'per-page' => 25,
-                    ];
-            })
+            ->with(RequestInterface::class)
             ->andReturn($request)
             ->getMock();
 
