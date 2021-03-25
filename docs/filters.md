@@ -52,8 +52,8 @@ $builder->filter('label', 234);
 
 ## Type
 
-The input for the type filter must either be a string or a `TypeFilterPresetEnum` instance. When the input is a string, it has to be a valid `TypeFilterPresetEnum` value.
+The input for the type filter must either be an int or a `TypeFilterPresetEnum` instance. When the input is an int, it has to be a valid `TypeFilterPresetEnum` value.
 
 ```php
-$builder->filter('type', 'Album');
+$builder->filter('type', 2);
 ```

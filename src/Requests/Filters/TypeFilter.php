@@ -9,7 +9,7 @@ use Wimski\Beatport\Exceptions\InvalidFilterInputException;
 class TypeFilter extends AbstractAttributeFilter
 {
     /**
-     * @var string
+     * @var int
      */
     protected $value;
 

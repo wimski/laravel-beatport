@@ -41,13 +41,13 @@ class TypeFilterTest extends TestCase
      * @test
      * @depends it_returns_query_params
      */
-    public function it_accepts_input_as_string(): void
+    public function it_accepts_input_as_int(): void
     {
         $filter = new TypeFilter();
-        $filter->input('Album');
+        $filter->input(2);
 
         static::assertSame([
-            'type' => 'Album',
+            'type' => 2,
         ], $filter->queryParams());
     }
 
@@ -61,7 +61,7 @@ class TypeFilterTest extends TestCase
         $filter->input(TypeFilterPresetEnum::ALBUM());
 
         static::assertSame([
-            'type' => 'Album',
+            'type' => 2,
         ], $filter->queryParams());
     }
 
@@ -74,6 +74,6 @@ class TypeFilterTest extends TestCase
         static::expectExceptionMessage('The TypeFilter input must be a valid TypeFilterPresetEnum value');
 
         $filter = new TypeFilter();
-        $filter->input('foo');
+        $filter->input(99999);
     }
 }
